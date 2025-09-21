@@ -1,46 +1,163 @@
+# Coding Standards
 
-### General Standards
-Adopt standards that prioritize readability, maintainability, and educational value. Code must be self-explanatory with comments explaining "why" over "what," especially for client-side technologies to support learning.
+This document outlines the coding standards and best practices for the MVP project. It ensures consistency, maintainability, and scalability across all contributions. Adherence to these guidelines is mandatory during code generation (e.g., via tools like grok-code-fast) and manual implementations, with a post-generation review required to verify compliance.
 
-### Client-Side Standards (JavaScript, React, TypeScript, Node.js, Vite)
-- **TypeScript Usage**: Always use interfaces for types (e.g., `interface Props { children: ReactNode; }`). Enable strict null checks in `tsconfig.json` for robustness.
-- **React Components**: Favor functional components with hooks. Structure as:
+## Project Initialization and Dependencies
+
+To establish a robust foundation, follow these steps immediately after scaffolding the project (e.g., via `npm init vite@latest` for a React + TypeScript setup):
+
+- **Core Dependencies**: Install and verify the following in `package.json`:
+  - Runtime: `react`, `react-dom`.
+  - Development: `@types/react`, `@types/react-dom`, `@vitejs/plugin-react`.
+  - TypeScript: `typescript`.
+
+- **Essential Development Dependencies**: Run the following command post-initialization to include Node.js type declarations:
+  ```
+  npm install --save-dev @types/node
+  ```
+  This provides type definitions for Node.js built-ins (e.g., `path`, `url`), preventing resolution errors in configuration files like `vite.config.ts`.
+
+- **Verification Checklist**:
+  - Confirm `npm install` succeeds without errors.
+  - Review `package.json` scripts (e.g., `dev`, `build`, `lint`).
+
+## TypeScript Configuration
+
+TypeScript enforces type safety and code quality. Configurations must align with Vite's bundler mode for optimal performance.
+
+- **Root `tsconfig.json`**: Use the composite project structure:
+  ```json
+  {
+    "files": [],
+    "references": [
+      { "path": "./tsconfig.app.json" },
+      { "path": "./tsconfig.node.json" }
+    ]
+  }
+  ```
+
+- **`tsconfig.app.json`** (for application code under `src/`):
+  ```json
+  {
+    "compilerOptions": {
+      "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+      "target": "ES2022",
+      "useDefineForClassFields": true,
+      "lib": ["ES2022", "DOM", "DOM.Iterable"],
+      "module": "ESNext",
+      "skipLibCheck": true,
+
+      /* Bundler mode */
+      "moduleResolution": "bundler",
+      "allowImportingTsExtensions": true,
+      "verbatimModuleSyntax": true,
+      "moduleDetection": "force",
+      "noEmit": true,
+      "jsx": "react-jsx",
+
+      /* Linting */
+      "strict": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "erasableSyntaxOnly": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUncheckedSideEffectImports": true,
+
+      /* Path mapping for aliases */
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./src/*"]
+      },
+      "esModuleInterop": true
+    },
+    "include": ["src"]
+  }
+  ```
+
+- **`tsconfig.node.json`** (for Node.js-specific files like `vite.config.ts`):
+  ```json
+  {
+    "compilerOptions": {
+      "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+      "target": "ES2023",
+      "lib": ["ES2023"],
+      "module": "ESNext",
+      "skipLibCheck": true,
+
+      /* Bundler mode */
+      "moduleResolution": "bundler",
+      "allowImportingTsExtensions": true,
+      "verbatimModuleSyntax": true,
+      "moduleDetection": "force",
+      "noEmit": true,
+
+      /* Linting */
+      "strict": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "erasableSyntaxOnly": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUncheckedSideEffectImports": true
+    },
+    "include": ["vite.config.ts"]
+  }
+  ```
+
+- **Handling Strict Options**:
+  - Use type-only imports for interfaces/types: `import type { InterfaceName } from '@/path';` to comply with `verbatimModuleSyntax`.
+  - For unused variables (e.g., React setters): Prefix with underscore, e.g., `const [_setState] = useState(...)`.
+
+## Import/Export Conventions
+
+Promote modularity and avoid deep relative paths.
+
+- **Preferred Style**: Use named exports for types and components: `export interface TabConfig { ... }`.
+- **Avoid**: Default exports for types unless explicitly justified.
+- **Path Resolution**: Leverage aliases: `import type { TabConfig } from '@/types/TabConfig';`.
+- **Organization**: Group shared types in `src/types/`, components in `src/components/`, hooks in `src/hooks/`, and services in `src/services/`.
+
+## Vite Configuration Best Practices
+
+`vite.config.ts` must support aliases and React out-of-the-box.
+
+- **Standard Template**:
   ```typescript
-  import React from 'react';
+  import { defineConfig } from 'vite';
+  import react from '@vitejs/plugin-react';
+  import path from 'path';
+  import { fileURLToPath } from 'url';
 
-  interface MyComponentProps {
-    label: string; // Educational note: This prop ensures type safety for the component's input.
-  }
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
 
-  const MyComponent: React.FC<MyComponentProps> = ({ label }) => {
-    // Hook usage explained: useState manages local state for clarity in debugging.
-    const [state, setState] = React.useState('');
-
-    return <div>{label}: {state}</div>;
-  };
-
-  export default MyComponent;
+  export default defineConfig({
+    plugins: [react()],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
+  });
   ```
-- **Node.js and Vite**: Use ES modules. Configure Vite for aliases (e.g., `@/components`) to simplify imports and debugging.
-- **Error Handling and Debugging**: Wrap async operations in try-catch with meaningful logs (e.g., `console.error('API fetch failed:', error);`). Use ESLint with React and TypeScript plugins for static analysis.
 
-### Server-Side Standards (Java, Spring Boot)
-- **Java Conventions**: Follow Java 17+ standards with immutable objects where possible. Use interfaces for all services:
-  ```java
-  public interface DataService {
-      // Method signature with Javadoc for clarity.
-      /**
-       * Retrieves data by ID. Throws exception if not found.
-       * @param id The unique identifier.
-       * @return The data object.
-       */
-      Data getById(long id);
-  }
-  ```
-- **Spring Boot Practices**: Annotate appropriately (e.g., `@RestController`, `@Autowired`). Use Lombok for boilerplate reduction but explain its usage in comments.
-- **Logging and Debugging**: Employ `@Slf4j` for logging. Standardize log messages (e.g., `log.info("Processing request for ID: {}", id);`).
+- **Testing**: Validate aliases with early imports in components.
 
-### Cross-Cutting Concerns
-- Version control commits must reference design specs or tests.
-- Enforce code reviews focusing on clarity and extensibility.
+## Verification and Testing Processes
 
+Incorporate checks at milestones to catch issues proactively.
+
+- **Periodic Build Review**: Run `npm run build` after configuration changes, before commits, and at each incremental stage end. Inspect for TypeScript errors (e.g., TS6133, TS1484) and resolve all.
+- **Development Workflow**:
+  1. `npm install` for dependencies.
+  2. `npm run dev` for hot reloading.
+  3. Browser console checks for runtime errors.
+- **IDE Tips**: Restart TypeScript server post-config updates.
+
+## Common Pitfalls and Resolutions
+
+- **Export Mismatches**: Verify named exports match imports; use type-only for pure types.
+- **Alias Discrepancies**: Ensure `tsconfig` paths mirror Vite `resolve.alias`.
+- **Unused Declarations**: Use underscores for intentional omissions.
+- **Node.js Types**: Always install `@types/node` to resolve built-in module errors.
+
+Review this document periodically as the project evolves. Non-compliance requires justification in pull requests.
