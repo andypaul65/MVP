@@ -21,6 +21,23 @@ To establish a robust foundation, follow these steps immediately after scaffoldi
   - Confirm `npm install` succeeds without errors.
   - Review `package.json` scripts (e.g., `dev`, `build`, `lint`).
 
+## React
+- **Styling Practices**: Use themed CSS imports with inline comments explaining aesthetic choices. For cyberpunk themes, apply dark gray bases for backgrounds, black borders for structure, and green accents for interactive elements. Example:
+  ```typescript
+  import React from 'react';
+  import './cyberpunk.css'; // Applies global cyberpunk theme: dark gray background, green text for cyberpunk aesthetic.
+
+  interface MyComponentProps {
+    label: string;
+  }
+
+  const MyComponent: React.FC<MyComponentProps> = ({ label }) => {
+    const [state, setState] = React.useState('');
+    return <div className="cyberpunk-panel">{label}: {state}</div>; // Class applies themed styles for enhanced UX.
+  };
+
+  export default MyComponent;
+
 ## TypeScript Configuration
 
 TypeScript enforces type safety and code quality. Configurations must align with Vite's bundler mode for optimal performance.

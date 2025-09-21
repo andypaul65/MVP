@@ -13,6 +13,17 @@ Testing is integral to the framework, ensuring reliability and serving as execut
     expect(screen.getByText('Test Label:')).toBeInTheDocument(); // Educational: Asserts presence for UI verification.
   });
   ```
+  - Test styled elements for thematic consistency, such as color schemes in cyberpunk mode:
+  ```typescript
+  import { render, screen } from '@testing-library/react';
+  import MyComponent from './MyComponent';
+
+  test('applies cyberpunk theme correctly', () => {
+    render(<MyComponent label="Test Label" />);
+    const element = screen.getByText('Test Label:');
+    expect(element).toHaveStyle('color: #00FF00'); // Asserts green accent for cyberpunk UX verification.
+  });
+
 - **Server-Side (JUnit with Mockito)**: Mock dependencies via interfaces:
   ```java
   @ExtendWith(MockitoExtension.class)
@@ -35,5 +46,6 @@ Testing is integral to the framework, ensuring reliability and serving as execut
 - **Full Stack**: Test client-server interactions via tools like Cypress, focusing on API contracts.
 
 ### Best Practices
+- Include visual regression or style assertion tests for UX themes, ensuring 80%+ coverage of styled components like cyberpunk elements.
 - Cover 80%+ code with tests, including edge cases.
 - Use fixtures directories for example data to promote reusability and clarity.

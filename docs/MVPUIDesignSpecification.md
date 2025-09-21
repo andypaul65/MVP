@@ -36,6 +36,13 @@ Use Vite for development, with aliases configured (e.g., `@components` resolving
 - Embed an error boundary around the tabbed interface for graceful error handling, logging to the debug tab.
 - Use TypeScript strict mode and source maps for error tracing.
 
+## UX Guidelines
+Enhance the tabbed interface with a non-complex cyberpunk theme to improve visual appeal and user experience. Key elements include:
+- Dark gray (#1E1E1E) as the primary background for a moody atmosphere.
+- Black (#000000) for structural components like borders and panels.
+- Green (#00FF00) accents for text, highlights, and interactive elements to evoke a neon cyberpunk style.
+  Implement via a global stylesheet (e.g., 'cyberpunk.css') imported into core components, ensuring modularity. Verify theme application through browser inspection and unit tests, maintaining extensibility for future overrides.
+
 ### MVP Tab Implementations
 - **Debug Tab** (namespace: "debug"):
   - Displays runtime information such as current state from hooks, API response logs, and system metrics (e.g., via `useSystemState`).
@@ -60,17 +67,17 @@ const TabbedInterface: React.FC<TabbedInterfaceProps> = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(0); // Manages active tab index for simple navigation.
 
   return (
-    <div>
-      <ul>
-        {tabs.map((tab, index) => (
-          <li key={tab.namespace} onClick={() => setActiveTab(index)}>
-            {tab.title}
-          </li>
-        ))}
-      </ul>
-      <div>{React.createElement(tabs[activeTab].component)}</div>
-    </div>
-  );
+          <div className="cyberpunk-container"> {/* Applies dark gray background and green accents */}
+                  <ul className="cyberpunk-tabs">
+          {tabs.map((tab, index) => (
+                    <li key={tab.namespace} onClick={() => setActiveTab(index)} className={index === activeTab ? 'active-green' : ''}>
+  {tab.title}
+  </li>
+))}
+  </ul>
+  <div className="cyberpunk-content">{React.createElement(tabs[activeTab].component)}</div>
+          </div>
+);
 };
 
 export default TabbedInterface;

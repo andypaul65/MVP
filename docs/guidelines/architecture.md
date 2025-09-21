@@ -25,6 +25,9 @@ Implement custom hooks (e.g., useApiFetch) for data fetching, with educational c
 Provide overridable methods or callbacks in base components for application-specific behavior.
 ##  Debugging Hooks: 
 Integrate React DevTools by default; include console logging with clear messages and use TypeScript's strict mode for early error detection. For Vite, configure source maps for precise error tracing.
+## UX and Styling
+Incorporate modular styling mechanisms, such as CSS modules or Tailwind CSS, to 
+support thematic customizations. For the MVP, adopt a cyberpunk aesthetic featuring dark gray (#1E1E1E) backgrounds, black (#000000) elements, and green (#00FF00) accents for highlights. This enhances user engagement without introducing complexity, leveraging extension hooks for theme overrides while maintaining accessibility and readability.
 
 # Server-Side Architecture (Java, Spring Boot)
 
