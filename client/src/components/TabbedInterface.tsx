@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TabConfig } from '../types/TabConfig'; // Interface for type-safe tab configs.
+import { TabConfig } from '@/types/TabConfig'; // Interface for type-safe tab configs.
 
 interface TabbedInterfaceProps {
   tabs: TabConfig[]; // Array of tabs for extensibility.

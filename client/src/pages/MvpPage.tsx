@@ -1,8 +1,8 @@
 import React from 'react';
-import TabbedInterface from '../components/TabbedInterface';
-import DebugPanel from '../components/DebugPanel';
-import ControlPanel from '../components/ControlPanel';
-import { TabConfig } from '../types/TabConfig';
+import TabbedInterface from '@/components/TabbedInterface';
+import DebugPanel from '@/components/DebugPanel';
+import ControlPanel from '@/components/ControlPanel';
+import { TabConfig } from '@/types/TabConfig';
 
 // Entry point page for the MVP UI, rendering the tabbed interface.
 // Educational note: Demonstrates component composition and extensibility via TabConfig.
