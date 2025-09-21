@@ -1,0 +1,41 @@
+/* Cyberpunk theme for MVP UI */
+/* Dark gray background for moody atmosphere */
+.cyberpunk-container {
+  background-color: #1E1E1E;
+  color: #00FF00; /* Green accents for text */
+  padding: 20px;
+  border: 2px solid #000000; /* Black borders for structure */
+  border-radius: 8px;
+}
+
+/* Tab list styling */
+.cyberpunk-tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.cyberpunk-tabs li {
+  background-color: #000000; /* Black for structural elements */
+  color: #00FF00; /* Green for interactive elements */
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid #00FF00;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.cyberpunk-tabs li.active-green {
+  background-color: #00FF00; /* Green highlight for active tab */
+  color: #000000; /* Black text on green */
+}
+
+/* Content area */
+.cyberpunk-content {
+  border: 1px solid #000000;
+  padding: 20px;
+  border-radius: 4px;
+  background-color: #1E1E1E; /* Dark gray background */
+}
