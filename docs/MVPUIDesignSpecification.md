@@ -1,125 +1,91 @@
+```
 # MVP UI Design Specification
 
 ## Overview
-This design specifies a Minimum Viable Product (MVP) user interface for the client-server framework, adhering to the core principles of modularity, clarity, extensibility, and debugging support outlined in the architecture documentation. The UI is structured as a tabbed web page built with React and TypeScript, ensuring type safety and educational inline comments. It integrates with the server via RESTful APIs, incorporating hooks for future extensions. The design emphasizes testing integration and debugging hooks from the outset.
+This document defines the UI as a tabbed web page with extensible tabs (e.g., debug and control panels) linked to backend namespaces. The framework emphasizes modularity, type safety, and a cyberpunk theme (dark gray backgrounds #1E1E1E, black structural elements #000000, green accents #00FF00).
 
-Key features include:
-- A debug tab displaying available runtime information.
-- A control panel tab showing system state, including the last message sent to and received from the backend.
-- Extensible tabs for future features, each with a unique namespace linked to backend messages and objects.
+## Client Structure
+- Folders: `src/components/`, `src/hooks/`, `src/services/`, `src/pages/`, `src/types/`.
+- Custom Hooks: e.g., `useSystemState` for state and message tracking.
+- Debugging: Integrate React DevTools and console logging.
 
-This design serves as a foundational module, with abstractions allowing easy addition of tabs via configuration. Development will follow iterative workflows, starting with this spec, followed by code, tests, and documentation.
+## Server Structure
+- Packages: `com.example.controllers/`, `com.example.services/`, `com.example.entities/`.
+- Interfaces: e.g., `SystemStateService`.
+- DTOs: e.g., `MessageDto` for JSON payloads supporting themed displays.
+- Debugging: Configure Actuator endpoints.
 
-## Client-Side Design (React, TypeScript, Vite)
+## Key Components and Endpoints
+- `TabbedInterface.tsx`: Implements tab navigation with `TabConfig` interface (namespace, title, component, optional hooks and styles). Apply cyberpunk theme via global CSS.
+  - Example Snippet (TabbedInterface.tsx):
+    ```tsx
+    import React, { useState, useEffect } from 'react';
+    import type { TabConfig } from '@/types/TabConfig';
+    import '../cyberpunk.css'; // Cyberpunk theme: dark gray bg, green accents
 
-### Structure
-Organize the client code under `src/` as follows:
-- `src/components/`: Reusable UI elements, e.g., `TabbedInterface.tsx` for the core tab structure.
-- `src/hooks/`: Custom hooks, e.g., `useSystemState.ts` for managing state and API interactions.
-- `src/services/`: API services, e.g., `apiService.ts` for handling backend communication.
-- `src/pages/`: Top-level pages, with `MvpPage.tsx` as the entry point.
-- `src/types/`: Shared interfaces, e.g., `TabConfig.ts` for tab definitions.
+    interface TabbedInterfaceProps {
+      tabs: TabConfig[];
+    }
 
-Use Vite for development, with aliases configured (e.g., `@components` resolving to `src/components`) to enhance import clarity.
+    const TabbedInterface: React.FC<TabbedInterfaceProps> = ({ tabs }) => {
+      const [activeTab, setActiveTab] = useState(0);
+      useEffect(() => {
+        tabs[activeTab]?.onTabMount?.();
+      }, [activeTab]);
 
-### Key Abstractions
-- Define `interface TabConfig { namespace: string; title: string; component: React.FC; }` for extensible tab registration. This allows dynamic addition of tabs, associating each with a namespace for message routing.
-- Implement a base `TabbedInterface` component that accepts an array of `TabConfig` objects, rendering tabs via React Tabs or a similar library (if needed; otherwise, use native state management for simplicity).
-- Use custom hooks like `useApiFetch` for data retrieval, with types ensuring consistency (e.g., `interface ApiResponse<T> { data: T; error?: string; }`).
-
-### Extension Hooks
-- Provide an `onTabMount` callback in `TabConfig` for namespace-specific initialization, e.g., subscribing to backend events tied to the namespace.
-- Allow overriding tab rendering via abstract props, enabling custom behavior without modifying core logic.
-
-### Debugging Hooks
-- Integrate React DevTools and console logging with prefixed messages (e.g., `[DEBUG] Tab loaded: namespace`).
-- Embed an error boundary around the tabbed interface for graceful error handling, logging to the debug tab.
-- Use TypeScript strict mode and source maps for error tracing.
-
-## UX Guidelines
-Enhance the tabbed interface with a non-complex cyberpunk theme to improve visual appeal and user experience. Key elements include:
-- Dark gray (#1E1E1E) as the primary background for a moody atmosphere.
-- Black (#000000) for structural components like borders and panels.
-- Green (#00FF00) accents for text, highlights, and interactive elements to evoke a neon cyberpunk style.
-  Implement via a global stylesheet (e.g., 'cyberpunk.css') imported into core components, ensuring modularity. Verify theme application through browser inspection and unit tests, maintaining extensibility for future overrides.
-
-### MVP Tab Implementations
-- **Debug Tab** (namespace: "debug"):
-  - Displays runtime information such as current state from hooks, API response logs, and system metrics (e.g., via `useSystemState`).
-  - Component: `DebugPanel.tsx`, using `useEffect` to poll or subscribe to updates, with comments explaining state management.
-- **Control Panel Tab** (namespace: "control"):
-  - Shows system state, last sent message (e.g., JSON payload), and last received message from the backend.
-  - Component: `ControlPanel.tsx`, leveraging `useSystemState` to track messages, with real-time updates via WebSockets or polling if extended later.
-- **Future Feature Tabs** (namespaces: e.g., "feature1", "feature2"):
-  - Placeholder components like `FeatureTab.tsx`, configured via `TabConfig` array.
-  - Each namespace maps to backend objects/messages, e.g., routing API calls like `/api/{namespace}/action`.
-
-### Example Code Snippet (TabbedInterface.tsx)
-```typescript
-import React, { useState } from 'react';
-import { TabConfig } from '../types/TabConfig'; // Interface for type-safe tab configs.
-
-interface TabbedInterfaceProps {
-  tabs: TabConfig[]; // Array of tabs for extensibility.
-}
-
-const TabbedInterface: React.FC<TabbedInterfaceProps> = ({ tabs }) => {
-  const [activeTab, setActiveTab] = useState(0); // Manages active tab index for simple navigation.
-
-  return (
-          <div className="cyberpunk-container"> {/* Applies dark gray background and green accents */}
-                  <ul className="cyberpunk-tabs">
-          {tabs.map((tab, index) => (
-                    <li key={tab.namespace} onClick={() => setActiveTab(index)} className={index === activeTab ? 'active-green' : ''}>
-  {tab.title}
-  </li>
-))}
-  </ul>
-  <div className="cyberpunk-content">{React.createElement(tabs[activeTab].component)}</div>
+      return (
+        <div className="cyberpunk-container">
+          <div className="cyberpunk-tabs">
+            {tabs.map((tab, index) => (
+              <button
+                key={tab.namespace}
+                className={index === activeTab ? 'active-green' : ''}
+                onClick={() => setActiveTab(index)}
+              >
+                {tab.title}
+              </button>
+            ))}
           </div>
-);
-};
+          <div className="cyberpunk-content" style={tabs[activeTab]?.style}>
+            <tabs[activeTab].component />
+          </div>
+        </div>
+      );
+    };
 
-export default TabbedInterface;
-```
+    export default TabbedInterface;
+    ```
+- API Endpoints: e.g., `/api/state/{namespace}` for RESTful communication.
+  - Example Snippet (MvpController.java):
+    ```java
+    @RestController
+    @RequestMapping("/api")
+    public class MvpController {
+      @Autowired
+      private SystemStateService stateService;
 
-## Server-Side Design (Java, Spring Boot)
+      @GetMapping("/state/{namespace}")
+      public ResponseEntity<MessageDto> getState(@PathVariable String namespace) {
+        MessageDto dto = stateService.getState(namespace);
+        return ResponseEntity.ok(dto); // Supports themed client rendering
+      }
 
-### Structure
-Organize into packages:
-- `com.example.controllers`: e.g., `MvpController.java` for handling tab-related requests.
-- `com.example.services`: e.g., `SystemStateService.java` implementing `SystemStateServiceInterface`.
-- `com.example.entities`: DTOs like `MessageDto` for consistent data transfer.
-
-### Key Abstractions
-- Define `public interface SystemStateService { MessageDto getLastSentMessage(String namespace); MessageDto getLastReceivedMessage(String namespace); }` for namespace-specific state queries.
-- Use DTOs like `public class MessageDto { private String namespace; private String payload; private Timestamp timestamp; }` to ensure consistency with client-side types.
-
-### Extension Hooks
-- Abstract base controller with overridable methods for namespace routing, e.g., `protected ResponseEntity<?> handleNamespaceRequest(String namespace, RequestBody body)`.
-- Support custom middleware via Spring interceptors for authentication or logging tied to namespaces.
-
-### Debugging Hooks
-- Enable Actuator endpoints (e.g., `/actuator/health`, `/actuator/info`) configured in `application.properties`.
-- Use SLF4J logging for message tracking, e.g., `log.info("Message received for namespace: {}", namespace);`.
-
-### Communication Layer
-- REST endpoints: e.g., `GET /api/state/{namespace}` returns system state; `POST /api/message/{namespace}` handles messages.
-- Use JSON for payloads, with shared DTOs ensuring alignment between client and server.
-- Include heartbeat endpoint `/api/heartbeat` for client polling.
+      @PostMapping("/message/{namespace}")
+      public ResponseEntity<Void> sendMessage(@PathVariable String namespace, @RequestBody MessageDto message) {
+        stateService.sendMessage(namespace, message);
+        return ResponseEntity.accepted().build();
+      }
+    }
+    ```
 
 ## Testing Integration
+- **Client-Side Unit**: Vitest + React Testing Library (preferred for Vite compatibility; avoids Jest's configuration overhead).
+- **Server-Side Unit**: JUnit + Mockito.
+- **API Mocking**: MSW for client-side integration tests.
+- **Full-Stack**: Cypress for end-to-end verification, including theme consistency and extensibility.
 
-### Unit Testing
-- Client: Use Jest to test `TabbedInterface` rendering and hook behaviors, e.g., asserting tab switches update state.
-- Server: Use JUnit/Mockito to mock services and verify namespace-specific responses.
-
-### Integration Testing
-- Client: Mock APIs with MSW to simulate backend responses for tabs.
-- Server: Use `@SpringBootTest` to validate endpoints with example data fixtures.
-- Full Stack: Employ Cypress to test tab interactions and message flows.
-
-## Development Workflow
-- Reference this spec in commits.
-- Iteratively implement client tabs, server endpoints, tests, and comments.
-- Enforce code reviews for adherence to standards, focusing on extensibility via namespaces.
+## Additional Notes
+- Ensure all elements support extensibility through hooks and optional props.
+- Verify theme application via browser inspection and tests (e.g., color assertions).
+- Vitest's native Vite support improves efficiency; configure with JSDOM for DOM-based tests.
+```
