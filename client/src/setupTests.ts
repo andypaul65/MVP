@@ -9,7 +9,7 @@ export const server = setupServer(
     const namespace = params.namespace as string;
     return HttpResponse.json({
       state: `Active state for ${namespace}`,
-      messages: [`Message 1 for ${namespace}`, `Message 2 for ${namespace}`],
+      messages: [{ content: `Message 1 for ${namespace}` }, { content: `Message 2 for ${namespace}` }],
     });
   }),
   http.post('/api/message/:namespace', () => {
