@@ -1,7 +1,6 @@
 // API service for handling backend communication.
 // Educational note: Centralizes API logic for reusability and testing.
 // TODO: Implement actual fetch calls with error handling.
-
 export const apiService = {
   getState: async (namespace: string) => {
     // Placeholder: Simulate API response.
@@ -16,8 +15,13 @@ export const apiService = {
     console.log('[DEBUG] API heartbeat');
     return { status: 'alive' };
   },
-  // Added for useSystemState hook integration (Stage 3); returns Promise<Response> for fetch compatibility
-  fetchState: async (namespace: string): Promise<Response> => {
-    return fetch(`/api/state/${namespace}`);
+  // Added minimally for useSystemState integration: Fetches state via REST
+  fetchState: async (namespace: string): Promise<{ state: string; messages: MessageDto[] }> => {
+    console.log(`[DEBUG] API fetchState for ${namespace}`);
+    const response = await fetch(`/api/state/${namespace}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
   },
 };
