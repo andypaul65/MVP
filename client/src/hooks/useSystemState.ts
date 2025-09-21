@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 // Educational note: Demonstrates useState and useEffect for data fetching and state management.
 // In future, integrate with apiService for backend calls.
 export const useSystemState = (namespace: string) => {
-  const [state, setState] = useState<any>(null); // Placeholder for system state.
-  const [error, setError] = useState<string | null>(null);
+  const [state, _setState] = useState<any>(null); // Placeholder for system state.
+  const [error, _setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Placeholder: Simulate API fetch.

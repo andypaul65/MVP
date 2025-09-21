@@ -4,8 +4,8 @@ import React from 'react';
 // Educational note: This illustrates tracking messages and real-time updates via hooks.
 const ControlPanel: React.FC = () => {
   // Hook usage: useState to track messages; extend with useSystemState for backend integration.
-  const [lastSent, setLastSent] = React.useState('No message sent yet.');
-  const [lastReceived, setLastReceived] = React.useState('No message received yet.');
+  const [lastSent, _setLastSent] = React.useState('No message sent yet.');
+  const [lastReceived, _setLastReceived] = React.useState('No message received yet.');
 
   React.useEffect(() => {
     console.log('[DEBUG] ControlPanel loaded'); // Educational: Console logging for debugging.
