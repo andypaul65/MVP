@@ -3,8 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
+// Conditional MSW setup for development mocking (added for Stage 3 verification)
+if (import.meta.env.DEV) {
+    const { worker } = await import('@/mocks/browser');
+    worker.start();
+}
+
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+    <StrictMode>
+        <App />
+    </StrictMode>,
 )
