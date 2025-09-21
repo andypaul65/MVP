@@ -1,20 +1,39 @@
 import React from 'react';
+import { useSystemState } from '../hooks/useSystemState';
+import '../cyberpunk.css'; // Import cyberpunk theme
 
-// Component for displaying runtime information such as current state, API logs, and system metrics.
-// Educational note: This component demonstrates state management and debugging hooks in React.
-const DebugPanel: React.FC = () => {
-  // Hook usage: useState for local debug state; in future, integrate with useSystemState for real data.
-  const [debugInfo, _setDebugInfo] = React.useState('Debug info will be displayed here.');
+// Props for DebugPanel
+interface DebugPanelProps {
+  namespace: string;
+}
 
-  React.useEffect(() => {
-    // Placeholder for polling or subscribing to updates.
-    console.log('[DEBUG] DebugPanel loaded'); // Educational: Logging aids in debugging component lifecycle.
-  }, []);
+// Component for displaying runtime information such as current state and logs.
+// Educational note: Demonstrates integration with custom hooks for real-time data fetching and polling.
+const DebugPanel: React.FC<DebugPanelProps> = ({ namespace }) => {
+  const { state, messages, error, loading } = useSystemState(namespace);
 
   return (
-    <div>
-      <h2>Debug Panel</h2>
-      <p>{debugInfo}</p>
+    <div className="debug-panel">
+      <h2>Debug Panel - {namespace}</h2>
+      {loading && <p>Loading...</p>}
+      {error && <p className="debug-log error">Error: {error}</p>}
+      <div>
+        <strong>Current State:</strong> {state || 'No state available'}
+      </div>
+      <div>
+        <strong>Logs:</strong>
+        <div>
+          {messages.length > 0 ? (
+            messages.map((msg, index) => (
+              <div key={index} className="debug-log">
+                {msg}
+              </div>
+            ))
+          ) : (
+            <div className="debug-log">No messages yet.</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

@@ -30,7 +30,7 @@ const TabbedInterface: React.FC<TabbedInterfaceProps> = ({ tabs }) => {
         ))}
       </ul>
       <div className="cyberpunk-content" style={tabs[activeTab]?.style}>
-        {React.createElement(tabs[activeTab].component)}
+        {React.createElement(tabs[activeTab].component, { namespace: tabs[activeTab].namespace })}
       </div>
     </div>
   );

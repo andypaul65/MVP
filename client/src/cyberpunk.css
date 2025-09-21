@@ -39,3 +39,79 @@
   border-radius: 4px;
   background-color: #1E1E1E; /* Dark gray background */
 }
+
+/* Debug Panel specific: Green-highlighted logs on black panels */
+.debug-panel {
+  background-color: #000000; /* Black panel for logs */
+  color: #00FF00; /* Green text */
+  font-family: monospace;
+  padding: 10px;
+  border: 1px solid #00FF00;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.debug-log {
+  color: #00FF00; /* Green for logs */
+  margin: 5px 0;
+  padding: 5px;
+  background-color: #000000; /* Black background for each log */
+  border-left: 3px solid #00FF00; /* Green accent */
+}
+
+.debug-log.error {
+  color: #FF0000; /* Red for errors */
+  border-left-color: #FF0000;
+}
+
+/* Control Panel specific: Themed message displays */
+.control-panel {
+  background-color: #1E1E1E;
+  padding: 20px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+}
+
+.control-input {
+  background-color: #000000;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.control-input::placeholder {
+  color: #00FF00;
+  opacity: 0.5;
+}
+
+.control-button {
+  background-color: #00FF00;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.control-button:hover {
+  background-color: #00DD00; /* Slightly darker green */
+}
+
+.message-display {
+  background-color: #000000;
+  color: #00FF00;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #00FF00;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}

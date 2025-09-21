@@ -1,5 +1,4 @@
 import { vi } from 'vitest';
-vi.mock('../../cyberpunk.css', () => ({}));
 
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, test, expect, beforeEach } from 'vitest';

@@ -1,21 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSystemState } from '../hooks/useSystemState';
+import '../cyberpunk.css'; // Import cyberpunk theme
 
-// Component showing system state, last sent message, and last received message from the backend.
-// Educational note: This illustrates tracking messages and real-time updates via hooks.
-const ControlPanel: React.FC = () => {
-  // Hook usage: useState to track messages; extend with useSystemState for backend integration.
-  const [lastSent, _setLastSent] = React.useState('No message sent yet.');
-  const [lastReceived, _setLastReceived] = React.useState('No message received yet.');
+// Props for ControlPanel
+interface ControlPanelProps {
+  namespace: string;
+}
 
-  React.useEffect(() => {
-    console.log('[DEBUG] ControlPanel loaded'); // Educational: Console logging for debugging.
-  }, []);
+// Component for controlling the system: sending messages and displaying state.
+// Educational note: Demonstrates form handling, async operations, and integration with custom hooks.
+const ControlPanel: React.FC<ControlPanelProps> = ({ namespace }) => {
+  const { state, messages, error, loading, sendMessage } = useSystemState(namespace);
+  const [inputMessage, setInputMessage] = useState('');
+  const [sending, setSending] = useState(false);
+
+  const handleSend = async () => {
+    if (!inputMessage.trim()) return;
+    setSending(true);
+    try {
+      await sendMessage(inputMessage);
+      setInputMessage(''); // Clear input after send
+    } catch (err) {
+      console.error('Failed to send message:', err);
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const lastReceived = messages.length > 0 ? messages[messages.length - 1] : 'No message received yet.';
 
   return (
-    <div>
-      <h2>Control Panel</h2>
-      <p>Last Sent: {lastSent}</p>
-      <p>Last Received: {lastReceived}</p>
+    <div className="control-panel">
+      <h2>Control Panel - {namespace}</h2>
+      {loading && <p>Loading...</p>}
+      {error && <p className="debug-log error">Error: {error}</p>}
+      <div>
+        <strong>Current State:</strong> {state || 'No state available'}
+      </div>
+      <div>
+        <strong>Last Received:</strong>
+        <div className="message-display">{lastReceived}</div>
+      </div>
+      <div>
+        <input
+          type="text"
+          className="control-input"
+          placeholder="Enter message to send..."
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+        />
+        <button
+          className="control-button"
+          onClick={handleSend}
+          disabled={sending || !inputMessage.trim()}
+        >
+          {sending ? 'Sending...' : 'Send Message'}
+        </button>
+      </div>
     </div>
   );
 };
