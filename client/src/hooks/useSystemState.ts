@@ -5,10 +5,10 @@ import type { MessageDto } from '@/types/MessageDto'; // Assume existing DTO typ
 // Interface for the hook's return value (extended minimally)
 export interface SystemState {
   state: string | null;
-  messages: MessageDto[];
+  messages: MessageDto[]; // Updated for DTO consistency
   error: string | null;
   loading: boolean;
-  sendMessage: (payload: any) => Promise<void>; // Added for ControlPanel integration
+  sendMessage: (payload: any) => Promise<void>;
 }
 
 // Custom hook for namespace-specific state and message tracking
@@ -21,7 +21,7 @@ export const useSystemState = (namespace: string): SystemState => {
   const loadData = async () => {
     setLoading(true);
     try {
-      const data = await apiService.fetchState(namespace); // Use new service method
+      const data = await apiService.fetchState(namespace);
       setState(data.state);
       setMessages(data.messages);
     } catch (err) {

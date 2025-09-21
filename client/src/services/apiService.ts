@@ -1,3 +1,5 @@
+import type { MessageDto } from '@/types/MessageDto';
+
 // API service for handling backend communication.
 // Educational note: Centralizes API logic for reusability and testing.
 // TODO: Implement actual fetch calls with error handling.

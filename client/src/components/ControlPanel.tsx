@@ -27,7 +27,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ namespace }) => {
     }
   };
 
-  const lastReceived = messages.length > 0 ? messages[messages.length - 1] : 'No message received yet.';
+  const lastReceived = messages.length > 0 ? messages[messages.length - 1].content : 'No message received yet.';
 
   return (
     <div className="control-panel">
