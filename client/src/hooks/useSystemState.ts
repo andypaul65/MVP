@@ -1,65 +1,53 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchState } from '@/services/apiService'; // Assuming a service for API calls; implement if needed
 
-// Define types for API responses
-interface MessageDto {
-  state: string;
-  messages: string[];
+// DTO for individual messages (aligned with server-side MessageDto for JSON payloads)
+export interface MessageDto {
+  content: string; // Core message text; extensible for future properties (e.g., id, timestamp)
 }
 
-// Custom hook for managing system state and API interactions.
-// Educational note: Demonstrates useState and useEffect for data fetching, polling for real-time updates, and useCallback for memoized functions.
-export const useSystemState = (namespace: string) => {
-  const [state, setState] = useState<string | null>(null);
-  const [messages, setMessages] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+// Interface for the hook's return value (promotes type safety and extensibility)
+export interface SystemState {
+  state: string | null;
+  messages: MessageDto[]; // Typed as array of MessageDto objects
+  error: string | null;
+  loading: boolean;
+}
 
-  // Function to fetch state and messages from API
-  const fetchData = useCallback(async () => {
+// Custom hook for namespace-specific state and message tracking
+// Integrates with REST API via fetchState service; polls every 5 seconds for real-time updates
+export const useSystemState = (namespace: string): SystemState => {
+  const [state, setState] = useState<string | null>(null);
+  const [messages, setMessages] = useState<MessageDto[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const loadData = async (): Promise<void> => {
     setLoading(true);
+    setError(null);
     try {
-      const response = await fetch(`/api/state/${namespace}`);
+      const response = await fetchState(namespace); // e.g., GET /api/state/{namespace}
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data: MessageDto = await response.json();
+      const data: { state: string; messages: MessageDto[] } = await response.json();
       setState(data.state);
       setMessages(data.messages);
-      setError(null);
     } catch (err) {
-      setError((err as Error).message);
+      setError(err instanceof Error ? err.message : 'Unknown error occurred');
+      setMessages([]); // Clear messages on error
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    loadData(); // Initial load
+
+    // Poll for updates (extensible interval)
+    const interval = setInterval(loadData, 5000);
+    return () => clearInterval(interval); // Cleanup on unmount
   }, [namespace]);
 
-  // Function to send a message
-  const sendMessage = useCallback(async (message: string) => {
-    try {
-      const response = await fetch(`/api/message/${namespace}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      // After sending, fetch updated data to reflect changes
-      await fetchData();
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  }, [namespace, fetchData]);
-
-  // Initial fetch and polling for real-time updates
-  useEffect(() => {
-    fetchData(); // Initial load
-
-    const interval = setInterval(fetchData, 5000); // Poll every 5 seconds for real-time updates
-    return () => clearInterval(interval); // Cleanup on unmount or namespace change
-  }, [fetchData]);
-
-  return { state, messages, error, loading, sendMessage };
+  return { state, messages, error, loading };
 };
