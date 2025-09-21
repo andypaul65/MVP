@@ -50,9 +50,8 @@ Use RESTful APIs with JSON payloads for client-server interaction. Define shared
 Include hooks for authentication (e.g., JWT) and error handling, with abstractions for custom middleware.
 
 # Development Workflow
-
 Start with design specs in separate Markdown files per module (e.g., module-design-spec.md).
-Iteratively develop code, tests, and documentation, emphasizing clarity through peer-reviewable comments.
+Iteratively develop code, tests(80%+ coverage), verification (including `npm run build` for client-side type checking and optimization), and documentation, emphasizing clarity through peer-reviewable comments.
 
 ## Iterative Committable Stages: 
 Structure development into discrete, testable stages (e.g., skeleton setup, core components, integrations). Each stage must include: (1) Design spec updates if needed; (2) Code generation/review; (3) Unit/integration tests achieving 80% coverage; (4) Manual verification/debugging; (5) A descriptive commit linking to specs. Progress only after stage validation to ensure stability and traceability.
