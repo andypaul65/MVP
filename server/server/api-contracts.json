@@ -1,0 +1,146 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "MVP Client-Server Framework API",
+    "description": "API contract for the MVP framework, defining endpoints for state management and message exchange with namespace support. This document serves as a shared reference for server (Spring Boot) and client (JavaScript) integration, ensuring consistent JSON payloads.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/api/state/{namespace}": {
+      "get": {
+        "summary": "Retrieve the current state for a specific namespace",
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "path",
+            "description": "The namespace identifier for themed or isolated state",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "cyberpunk"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Namespace not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/message/{namespace}": {
+      "post": {
+        "summary": "Send a message to a specific namespace",
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "path",
+            "description": "The namespace identifier",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "cyberpunk"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/heartbeat": {
+      "get": {
+        "summary": "Health check endpoint to verify server availability",
+        "responses": {
+          "200": {
+            "description": "Server is operational",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "alive"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MessageDto": {
+        "type": "object",
+        "required": ["content", "namespace"],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "The message content to be exchanged or rendered",
+            "example": "Welcome to the cyberpunk namespace"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "The namespace for scoping the message",
+            "example": "cyberpunk"
+          }
+        }
+      }
+    }
+  }
+}

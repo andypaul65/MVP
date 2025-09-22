@@ -1,4 +1,5 @@
-// DTO for messages, supporting themed client displays as per MVPUIDesignSpecification.md
+// DTO for messages, aligned with api-contracts.json schema for type safety
 export interface MessageDto {
-    content: string; // Core message text; extensible for id, timestamp, etc.
+    content: string; // The message content to be exchanged or rendered
+    namespace: string; // The namespace for scoping the message
 }

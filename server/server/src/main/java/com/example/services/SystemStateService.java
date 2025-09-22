@@ -19,6 +19,7 @@ public interface SystemStateService {
      * Sends a message to the specified namespace.
      * @param namespace the namespace identifier
      * @param message the message to send
+     * @return the processed MessageDto
      */
-    void sendMessage(String namespace, MessageDto message);
+    MessageDto sendMessage(String namespace, MessageDto message);
 }

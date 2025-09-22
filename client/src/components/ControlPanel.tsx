@@ -18,7 +18,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ namespace }) => {
     if (!inputMessage.trim()) return;
     setSending(true);
     try {
-      await sendMessage(inputMessage);
+      await sendMessage({ content: inputMessage, namespace });
       setInputMessage(''); // Clear input after send
     } catch (err) {
       console.error('Failed to send message:', err);

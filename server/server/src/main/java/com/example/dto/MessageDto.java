@@ -2,24 +2,34 @@ package com.example.dto;
 
 /**
  * Data Transfer Object for JSON payloads in client-server communication.
- * Supports themed displays by including message content.
+ * Supports themed displays by including message content and namespace scoping.
  */
 public class MessageDto {
 
-    private String message;
+    private String content;
+    private String namespace;
 
     public MessageDto() {
     }
 
-    public MessageDto(String message) {
-        this.message = message;
+    public MessageDto(String content, String namespace) {
+        this.content = content;
+        this.namespace = namespace;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 }
