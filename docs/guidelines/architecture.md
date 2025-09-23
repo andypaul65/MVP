@@ -29,6 +29,9 @@ Integrate React DevTools by default; include console logging with clear messages
 Incorporate modular styling mechanisms, such as CSS modules or Tailwind CSS, to 
 support thematic customizations. For the MVP, adopt a cyberpunk aesthetic featuring dark gray (#1E1E1E) backgrounds, black (#000000) elements, and green (#00FF00) accents for highlights. This enhances user engagement without introducing complexity, leveraging extension hooks for theme overrides while maintaining accessibility and readability.
 
+## Client-Server Sync Patterns
+Treat client fetches as Java method invocations on a proxy object.
+
 # Server-Side Architecture (Java, Spring Boot)
 
 ## Structure: 
@@ -48,6 +51,20 @@ Enable Spring Boot Actuator endpoints (e.g., /actuator/health, /actuator/metrics
 
 Use RESTful APIs with JSON payloads for client-server interaction. Define shared interfaces or DTOs for data models to ensure consistency.
 Include hooks for authentication (e.g., JWT) and error handling, with abstractions for custom middleware.
+
+# Error Handling Patterns
+
+## Client-Side Error Handling
+- Wrap all API calls in services (e.g., `apiService.ts`) with try-catch blocks to catch network errors, invalid responses, or server errors.
+- Propagate errors to hooks (e.g., `useSystemState`) for state updates, displaying error messages and setting error flags.
+- Use consistent error messages and logging for debugging.
+- Example: In `apiService.ts`, throw custom errors with descriptive messages; in hooks, catch and update state accordingly.
+
+## Server-Side Error Handling
+- Implement global `@ExceptionHandler` in controllers or advisors to catch exceptions and return consistent JSON error responses.
+- Use HTTP status codes appropriately (e.g., 400 for bad requests, 500 for server errors).
+- Log errors for monitoring and debugging.
+- Example: `GlobalExceptionHandler.java` with methods for `Exception.class` and specific exceptions like `IllegalArgumentException`.
 
 # Development Workflow
 Start with design specs in separate Markdown files per module (e.g., module-design-spec.md).

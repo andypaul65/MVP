@@ -7,11 +7,12 @@ describe('ControlPanel Integration', () => {
     render(<ControlPanel namespace="control" />);
 
     await waitFor(() => {
-      expect(screen.getByText('Active state for control')).toBeInTheDocument();
+      expect(screen.getByText('Current State:')).toBeInTheDocument();
+      expect(screen.queryByText('Active state for control')).toBeInTheDocument();
     });
 
-    // Last received message
-    expect(screen.getByText('Message 2 for control')).toBeInTheDocument();
+    // Last received message (single from state)
+    expect(screen.getAllByText('Active state for control')).toHaveLength(2); // In state and last received
   });
 
   test('sends message and clears input', async () => {

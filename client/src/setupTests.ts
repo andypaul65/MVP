@@ -5,15 +5,22 @@ import { http, HttpResponse } from 'msw';
 
 // Mock API server for integration tests
 export const server = setupServer(
-  http.get('/api/state/:namespace', ({ params }) => {
+  http.get('http://localhost:8080/api/state/:namespace', ({ params }) => {
     const namespace = params.namespace as string;
     return HttpResponse.json({
-      state: `Active state for ${namespace}`,
-      messages: [{ content: `Message 1 for ${namespace}` }, { content: `Message 2 for ${namespace}` }],
+      content: `Active state for ${namespace}`,
+      namespace: namespace,
     });
   }),
-  http.post('/api/message/:namespace', () => {
-    return new HttpResponse(null, { status: 200 });
+  http.post('http://localhost:8080/api/message/:namespace', ({ request }) => {
+    // For simplicity, return the sent message as response
+    return request.json().then(body => HttpResponse.json(body));
+  }),
+  http.get('http://localhost:8080/api/heartbeat', () => {
+    return HttpResponse.json({
+      status: 'alive',
+      timestamp: new Date().toISOString(),
+    });
   })
 );
 

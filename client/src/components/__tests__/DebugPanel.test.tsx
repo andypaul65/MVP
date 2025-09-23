@@ -11,12 +11,12 @@ describe('DebugPanel Integration', () => {
 
     // Wait for data to load
     await waitFor(() => {
-      expect(screen.getByText('Active state for test')).toBeInTheDocument();
+      expect(screen.getByText('Current State:')).toBeInTheDocument();
+      expect(screen.queryByText('Active state for test')).toBeInTheDocument();
     });
 
-    // Check messages are displayed
-    expect(screen.getByText('Message 1 for test')).toBeInTheDocument();
-    expect(screen.getByText('Message 2 for test')).toBeInTheDocument();
+    // Check messages are displayed (single message from state)
+    expect(screen.getAllByText('Active state for test')).toHaveLength(2); // In state and logs
   });
 
   test('applies cyberpunk debug-panel class', async () => {
