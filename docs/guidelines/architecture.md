@@ -70,9 +70,28 @@ Include hooks for authentication (e.g., JWT) and error handling, with abstractio
 Start with design specs in separate Markdown files per module (e.g., module-design-spec.md).
 Iteratively develop code, tests(80%+ coverage), verification (including browser inspection, `npm run build` for type checking and optimization, and `npm test` for full suite execution), and documentation, emphasizing clarity through peer-reviewable comments.
 
+## Pre-Commit Verification (MANDATORY)
+**ALWAYS run these commands before committing any changes:**
+1. `npm run build` - Ensures TypeScript compilation and bundling succeed
+2. `npm test` - Runs full test suite with 80%+ coverage requirement
+3. Manual verification in browser at `http://localhost:5173`
+
+**Failure to run these commands will result in build failures and should be corrected immediately.**
+
 ## Development Environment Setup
 For client-side development, MSW (Mock Service Worker) automatically intercepts API calls in development mode, allowing full client functionality without requiring the server to be running. This enables independent client development while maintaining the same API contract expectations. When ready for integration testing, start the Spring Boot server on localhost:8080.
  
 
-## Iterative Committable Stages: 
-Structure development into discrete, testable stages (e.g., skeleton setup, core components, integrations). Each stage must include: (1) Design spec updates if needed; (2) Code generation/review; (3) Unit/integration tests achieving 80% coverage; (4) Manual verification/debugging; (5) A descriptive commit linking to specs. Progress only after stage validation to ensure stability and traceability.
+## Iterative Committable Stages:
+Structure development into discrete, testable stages (e.g., skeleton setup, core components, integrations). Each stage must include:
+
+1. **Design spec updates** if needed
+2. **Code generation/review** with inline comments
+3. **Pre-commit verification** (MANDATORY):
+   - `npm run build` - TypeScript compilation and bundling
+   - `npm test` - Full test suite (80%+ coverage)
+   - Browser verification at `http://localhost:5173`
+4. **Manual verification/debugging** including browser inspection
+5. **Descriptive commit** linking to updated specs
+
+**Progress only after ALL stage validations pass.** Never commit without running `npm run build` and `npm test` first.

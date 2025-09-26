@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import type { MessageDto } from '@/types/MessageDto';
+import type { HeartbeatDto } from '@/types/HeartbeatDto';
 
 // Type for path parameters (namespace extraction)
 type GetStateParams = {
