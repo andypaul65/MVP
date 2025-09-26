@@ -8,11 +8,14 @@ describe('ControlPanel Integration', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Current State:')).toBeInTheDocument();
-      expect(screen.queryByText('Active state for control')).toBeInTheDocument();
+      // Check that state text appears in both sections
+      const stateElements = screen.getAllByText('Active state for control');
+      expect(stateElements).toHaveLength(2);
     });
 
-    // Last received message (single from state)
-    expect(screen.getAllByText('Active state for control')).toHaveLength(2); // In state and last received
+    // Verify the text appears in both Current State and Last Received sections
+    expect(screen.getByText('Current State:')).toBeInTheDocument();
+    expect(screen.getByText('Last Received:')).toBeInTheDocument();
   });
 
   test('sends message and clears input', async () => {
