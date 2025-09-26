@@ -38,6 +38,8 @@ To establish a robust foundation, follow these steps immediately after scaffoldi
 
   export default MyComponent;
 
+  ```
+
 ## TypeScript Configuration
 
 TypeScript enforces type safety and code quality. Configurations must align with Vite's bundler mode for optimal performance.
@@ -119,10 +121,14 @@ TypeScript enforces type safety and code quality. Configurations must align with
     "include": ["vite.config.ts"]
   }
   ```
+  
 
 - **Handling Strict Options**:
   - Use type-only imports for interfaces/types: `import type { InterfaceName } from '@/path';` to comply with `verbatimModuleSyntax`.
   - For unused variables (e.g., React setters): Prefix with underscore, e.g., `const [_setState] = useState(...)`.
+
+### TypeScript Best Practices
+Always import external libraries (e.g., import axios from 'axios';) to avoid TS2304 errors, analogous to Java package imports.
 
 ## Import/Export Conventions
 
@@ -176,5 +182,7 @@ Incorporate checks at milestones to catch issues proactively.
 - **Alias Discrepancies**: Ensure `tsconfig` paths mirror Vite `resolve.alias`.
 - **Unused Declarations**: Use underscores for intentional omissions.
 - **Node.js Types**: Always install `@types/node` to resolve built-in module errors.
+
+
 
 Review this document periodically as the project evolves. Non-compliance requires justification in pull requests.

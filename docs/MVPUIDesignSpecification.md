@@ -1,4 +1,3 @@
-```
 # MVP UI Design Specification
 
 ## Overview
@@ -77,6 +76,9 @@ This document defines the UI as a tabbed web page with extensible tabs (e.g., de
       }
     }
     ```
+
+## Integration
+Client hooks should use useEffect for server polling, ensuring state consistency like Java's scheduled tasks
 
 ## Testing Integration
 - **Client-Side Unit**: Vitest + React Testing Library (preferred for Vite compatibility; avoids Jest's configuration overhead).
