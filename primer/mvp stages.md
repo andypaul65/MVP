@@ -25,8 +25,8 @@ The following restates the iterative development stages for the MVP client-serve
 5.5 **Stage 5.5: Enhanced Testing and Integration with Vitest**
     ***Testing Coverage***: Added comprehensive Vitest unit tests for key client files (src/hooks/useSystemState.ts, src/services/apiService.ts) covering state updates, API fetches, and error scenarios. Added Spring Boot integration tests for controllers and services using @SpringBootTest and MockMvc, testing API endpoints for success/failure cases. Verified >80% coverage with npm test.
     ***Integration Issues***: Wrapped client API calls with try-catch for robust error handling and state updates. Implemented server-side @ExceptionHandler for consistent error responses. Tested integration with simulated network failures and verified state sync using Vitest mocks.
-5.6 **Stage 5.6: WebSockets**
-implement WebSockets using Spring's @MessageMapping and client's WebSocket API. Start with minimal endpoint in api-contracts.json.
+5.6 **Stage 5.6: WebSockets** ✅ COMPLETED
+Implemented WebSockets using Spring's @MessageMapping and client's STOMP over SockJS API. Added minimal /ws endpoint to api-contracts.json with SockJS fallback support. Client now receives real-time state updates while maintaining HTTP fallback for reliability.
 
 6. **Stage 6: Testing and Debugging Hooks**  
    Add comprehensive unit (Vitest/JUnit) and integration tests (MSW/SpringBootTest) per updated testing-guidelines.md, including UX-specific assertions for themes. Enable debugging tools (e.g., React DevTools, Actuator). Run all tests to achieve 80%+ coverage. Commit message: "Full testing suite with UX verification."
