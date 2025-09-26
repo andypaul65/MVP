@@ -1,6 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 import DebugPanel from '../DebugPanel';
+
+// Mock the CSS import
+vi.mock('../cyberpunk.css', () => ({}));
 
 describe('DebugPanel Integration', () => {
   test('fetches and displays state and messages from API', async () => {

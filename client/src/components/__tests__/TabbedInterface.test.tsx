@@ -5,6 +5,9 @@ import { describe, test, expect, beforeEach } from 'vitest';
 import TabbedInterface from '../TabbedInterface';
 import type { TabConfig } from '@/types/TabConfig';
 
+// Mock the CSS import to avoid issues with style application in tests
+vi.mock('../cyberpunk.css', () => ({}));
+
 // Mock components for tabs
 const MockComponent1: React.FC = () => <div>Component 1</div>;
 const MockComponent2: React.FC = () => <div>Component 2</div>;
@@ -81,6 +84,10 @@ describe('TabbedInterface', () => {
 
     const tabsList = container!.querySelector('.cyberpunk-tabs');
     expect(tabsList).toBeInTheDocument();
+
+    const tabItems = screen.getAllByRole('listitem');
+    const activeTab = tabItems[0];
+    expect(activeTab).toHaveClass('active-green'); // Active tab has green accent class
 
     const content = container!.querySelector('.cyberpunk-content');
     expect(content).toBeInTheDocument();

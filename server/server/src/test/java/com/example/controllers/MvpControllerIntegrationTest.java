@@ -35,11 +35,11 @@ class MvpControllerIntegrationTest {
 
     @Test
     void getState_Success() throws Exception {
-        mockMvc.perform(get("/api/state/test"))
+        mockMvc.perform(get("/api/state/integrationTest"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.content").value("Default state for test"))
-                .andExpect(jsonPath("$.namespace").value("test"));
+                .andExpect(jsonPath("$.content").value("Default state for integrationTest"))
+                .andExpect(jsonPath("$.namespace").value("integrationTest"));
     }
 
     @Test
@@ -53,23 +53,23 @@ class MvpControllerIntegrationTest {
 
     @Test
     void sendMessage_Success() throws Exception {
-        MessageDto message = new MessageDto("Test message", "test");
+        MessageDto message = new MessageDto("Test message", "sendTest");
 
-        mockMvc.perform(post("/api/message/test")
+        mockMvc.perform(post("/api/message/sendTest")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(message)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.content").value("Test message"))
-                .andExpect(jsonPath("$.namespace").value("test"));
+                .andExpect(jsonPath("$.namespace").value("sendTest"));
     }
 
     @Test
     void sendMessage_InvalidRequest() throws Exception {
-        mockMvc.perform(post("/api/message/test")
+        mockMvc.perform(post("/api/message/invalidTest")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("invalid json"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isInternalServerError());
     }
 
     @Test

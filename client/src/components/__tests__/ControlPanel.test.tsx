@@ -1,6 +1,9 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 import ControlPanel from '../ControlPanel';
+
+// Mock the CSS import
+vi.mock('../cyberpunk.css', () => ({}));
 
 describe('ControlPanel Integration', () => {
   test('fetches and displays state and last message', async () => {
