@@ -121,6 +121,18 @@
           }
         }
       }
+    },
+    "/ws": {
+      "description": "WebSocket endpoint for real-time communication",
+      "get": {
+        "summary": "Establish WebSocket connection for real-time state updates",
+        "description": "Connect to WebSocket endpoint at /ws for real-time namespace-specific state updates. Send messages to /app/state/{namespace} and subscribe to /topic/state/{namespace} for updates.",
+        "responses": {
+          "101": {
+            "description": "WebSocket connection established"
+          }
+        }
+      }
     }
   },
   "components": {

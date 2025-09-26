@@ -21,6 +21,15 @@ export const server = setupServer(
       status: 'alive',
       timestamp: new Date().toISOString(),
     });
+  }),
+  // Handle SockJS info requests for WebSocket testing
+  http.get('http://localhost:8080/ws/info', () => {
+    return HttpResponse.json({
+      entropy: Math.random(),
+      origins: ['*:*'],
+      cookie_needed: false,
+      websocket: true,
+    });
   })
 );
 
