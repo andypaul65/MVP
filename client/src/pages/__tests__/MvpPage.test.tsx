@@ -40,12 +40,15 @@ describe('MvpPage', () => {
     expect(screen.getByText('Control Panel')).toBeInTheDocument();
   });
 
-  test('includes debug and control panel tabs', () => {
+  test('includes all tabs: debug, control, analytics, settings, reports', () => {
     render(<MvpPage />);
 
-    // Verify both tabs are present
+    // Verify all tabs are present
     expect(screen.getByText('Debug')).toBeInTheDocument();
     expect(screen.getByText('Control Panel')).toBeInTheDocument();
+    expect(screen.getByText('Analytics')).toBeInTheDocument();
+    expect(screen.getByText('Settings')).toBeInTheDocument();
+    expect(screen.getByText('Reports')).toBeInTheDocument();
   });
 
   test('has extensible tab structure for future features', () => {

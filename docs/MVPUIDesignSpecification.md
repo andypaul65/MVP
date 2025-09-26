@@ -16,6 +16,7 @@ This document defines the UI as a tabbed web page with extensible tabs (e.g., de
 
 ## Key Components and Endpoints
 - `TabbedInterface.tsx`: Implements tab navigation with `TabConfig` interface (namespace, title, component, optional hooks and styles). Apply cyberpunk theme via global CSS.
+- Placeholder tabs for future features: AnalyticsPanel, SettingsPanel, ReportsPanel, demonstrating extensibility.
   - Example Snippet (TabbedInterface.tsx):
     ```tsx
     import React, { useState, useEffect } from 'react';

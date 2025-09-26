@@ -2,6 +2,9 @@ import React from 'react';
 import TabbedInterface from '@/components/TabbedInterface';
 import DebugPanel from '@/components/DebugPanel';
 import ControlPanel from '@/components/ControlPanel';
+import AnalyticsPanel from '@/components/AnalyticsPanel';
+import SettingsPanel from '@/components/SettingsPanel';
+import ReportsPanel from '@/components/ReportsPanel';
 import type { TabConfig } from '@/types/TabConfig';
 
 // Entry point page for the MVP UI, rendering the tabbed interface.
@@ -10,7 +13,9 @@ const MvpPage: React.FC = () => {
   const tabs: TabConfig[] = [
     { namespace: 'debug', title: 'Debug', component: DebugPanel },
     { namespace: 'control', title: 'Control Panel', component: ControlPanel },
-    // Future: Add more tabs here, e.g., { namespace: 'feature1', title: 'Feature 1', component: FeatureTab }
+    { namespace: 'analytics', title: 'Analytics', component: AnalyticsPanel },
+    { namespace: 'settings', title: 'Settings', component: SettingsPanel },
+    { namespace: 'reports', title: 'Reports', component: ReportsPanel },
   ];
 
   return (
