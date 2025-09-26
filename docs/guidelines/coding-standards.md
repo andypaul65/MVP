@@ -185,4 +185,16 @@ Incorporate checks at milestones to catch issues proactively.
 
 
 
+## Development Environment Setup
+
+### Git Configuration
+Always ensure proper `.gitignore` configuration to prevent committing system files and build artifacts:
+
+- **macOS Users**: `.DS_Store` files are automatically ignored
+- **IDE Files**: `.vscode/`, `.idea/` directories are ignored
+- **Build Artifacts**: `dist/`, `node_modules/`, `*.log` files are ignored
+- **Environment Files**: `.env*` files are ignored for security
+
+**Before initial commit**: Verify `.gitignore` exists and contains appropriate exclusions.
+
 Review this document periodically as the project evolves. Non-compliance requires justification in pull requests.
