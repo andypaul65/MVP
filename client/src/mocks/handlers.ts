@@ -1,24 +1,39 @@
 import { http, HttpResponse } from 'msw';
+import type { MessageDto } from '@/types/MessageDto';
 
 // Type for path parameters (namespace extraction)
 type GetStateParams = {
     namespace: string;
 };
 
-// Type for response body (aligns with expected DTO structure; updated for string messages)
-type GetStateResponse = {
-    state: string;
-    messages: string[]; // Changed from Array<{ id: number; content: string }> to string[]
-};
-
 export const handlers = [
-    http.get<GetStateParams, never, GetStateResponse>(
-        '/api/state/:namespace',
+    http.get<GetStateParams, never, MessageDto>(
+        'http://localhost:8080/api/state/:namespace',
         async ({ params }) => {
             const { namespace } = params;
             return HttpResponse.json({
-                state: 'available',
-                messages: [`Mock message for ${namespace}`], // Array of strings, not objects
+                content: `Mock state for ${namespace}`,
+                namespace: namespace,
+            });
+        },
+    ),
+    http.post<MessageDto, never, MessageDto>(
+        'http://localhost:8080/api/message/:namespace',
+        async ({ params, request }) => {
+            const { namespace } = params;
+            const message: MessageDto = await request.json();
+            return HttpResponse.json({
+                content: `Echo: ${message.content}`,
+                namespace: namespace,
+            });
+        },
+    ),
+    http.get<never, never, HeartbeatDto>(
+        'http://localhost:8080/api/heartbeat',
+        async () => {
+            return HttpResponse.json({
+                status: 'alive',
+                timestamp: new Date().toISOString(),
             });
         },
     ),

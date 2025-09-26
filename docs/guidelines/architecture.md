@@ -69,6 +69,9 @@ Include hooks for authentication (e.g., JWT) and error handling, with abstractio
 # Development Workflow
 Start with design specs in separate Markdown files per module (e.g., module-design-spec.md).
 Iteratively develop code, tests(80%+ coverage), verification (including browser inspection, `npm run build` for type checking and optimization, and `npm test` for full suite execution), and documentation, emphasizing clarity through peer-reviewable comments.
+
+## Development Environment Setup
+For client-side development, MSW (Mock Service Worker) automatically intercepts API calls in development mode, allowing full client functionality without requiring the server to be running. This enables independent client development while maintaining the same API contract expectations. When ready for integration testing, start the Spring Boot server on localhost:8080.
  
 
 ## Iterative Committable Stages: 

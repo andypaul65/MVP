@@ -85,7 +85,7 @@ Testing serves as executable documentation and is developed iteratively alongsid
 ## Integration Testing
 **Integration Guidance**: Start with a simple polling mechanism on client (setInterval for fetches, like Java's TimerTask), evolving to WebSockets for real-time, analogous to Java's asynchronous messaging with JMS.
 
-- **Client-Side**: Mock APIs with MSW to simulate server responses, verifying data flow and rendering.
+- **Client-Side**: Use MSW for API mocking in both development mode (automatic interception) and testing (explicit server setup), simulating server responses to verify data flow and rendering.
   - Example Snippet (MSW for API Mock):
     ```ts
     import { rest } from 'msw';
