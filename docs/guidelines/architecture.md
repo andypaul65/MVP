@@ -95,3 +95,9 @@ Structure development into discrete, testable stages (e.g., skeleton setup, core
 5. **Descriptive commit** linking to updated specs
 
 **Progress only after ALL stage validations pass.** Never commit without running `npm run build` and `npm test` first.
+
+## Command Execution Guardrails:
+- **Timeout Protection**: All commands use 2-minute default timeouts to prevent hangs
+- **Single Execution**: Failing commands are investigated before retry, not auto-re-executed
+- **Failure Analysis**: Analyze output and fix root causes before retrying failed commands
+- **Server Management**: Spring Boot server must be started manually in separate console/IDE

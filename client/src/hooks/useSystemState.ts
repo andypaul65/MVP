@@ -41,6 +41,7 @@ export const useSystemState = (namespace: string): SystemState => {
   const connectWebSocket = () => {
     if (stompClientRef.current?.connected) return;
 
+    console.log(`Attempting WebSocket connection for namespace: ${namespace}`);
     try {
       const socket = new SockJS('http://localhost:8080/ws');
       const stompClient = StompJs.over(socket);
@@ -51,6 +52,7 @@ export const useSystemState = (namespace: string): SystemState => {
       }
 
       stompClient.connect({}, () => {
+        console.log(`WebSocket connected successfully for namespace: ${namespace}`);
         setIsConnected(true);
         setError(null);
 
@@ -64,9 +66,10 @@ export const useSystemState = (namespace: string): SystemState => {
             console.error('Error parsing WebSocket message:', err);
           }
         });
+        console.log(`Subscribed to /topic/state/${namespace}`);
       }, (error: any) => {
         // Only log error, don't set error state - this allows HTTP fallback to work
-        console.warn('WebSocket connection failed, falling back to HTTP polling:', error?.message || 'Unknown error');
+        console.warn('WebSocket STOMP connection failed, falling back to HTTP polling:', error);
         setIsConnected(false);
         // Don't set error state here - let HTTP API handle errors
 

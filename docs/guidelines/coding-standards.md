@@ -165,6 +165,29 @@ Promote modularity and avoid deep relative paths.
 
 - **Testing**: Validate aliases with early imports in components.
 
+## Command Execution Standards
+
+To ensure safe and reliable command execution, follow these guardrails:
+
+### Timeout Protection
+- **Default Timeout**: All Maven/shell commands use 2-minute timeouts by default to prevent indefinite hangs
+- **Configurable**: Timeout can be adjusted per command when longer execution is expected
+- **Purpose**: Prevents hanging processes and maintains responsive development workflow
+
+### Single Execution Policy
+- **No Auto-Retry**: Failing commands are not automatically re-executed
+- **Investigation First**: Analyze failures through logs, code review, or output analysis before retrying
+- **Targeted Fixes**: Propose specific fixes based on failure analysis
+
+### Failure Analysis Approach
+- **Exit Code 1 Handling**: Analyze command output thoroughly before any retry attempts
+- **Root Cause Focus**: If tests/commands fail repeatedly, prioritize fixing underlying code/logic
+- **Diagnostic Tools**: Use logs, debug output, and code inspection for failure diagnosis
+
+### Command Restrictions
+- **Server Startup**: Do not use `mvnw spring-boot:run` - request manual server startup in separate console/IDE
+- **Purpose**: Prevents port conflicts and enables independent server management
+
 ## Verification and Testing Processes
 
 Incorporate checks at milestones to catch issues proactively.
