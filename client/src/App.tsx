@@ -1,6 +1,7 @@
 import React from 'react';
 import MvpPage from './pages/MvpPage';
 import ErrorBoundary from './components/ErrorBoundary';
+import { AuthProvider } from './contexts/AuthContext';
 import './App.css'
 
 // Main App component, serving as the root for the MVP UI.
@@ -8,7 +9,9 @@ import './App.css'
 const App: React.FC = () => {
   return (
     <ErrorBoundary>
-      <MvpPage />
+      <AuthProvider>
+        <MvpPage />
+      </AuthProvider>
     </ErrorBoundary>
   );
 };

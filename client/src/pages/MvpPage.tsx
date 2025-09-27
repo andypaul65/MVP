@@ -5,12 +5,14 @@ import ControlPanel from '@/components/ControlPanel';
 import AnalyticsPanel from '@/components/AnalyticsPanel';
 import SettingsPanel from '@/components/SettingsPanel';
 import ReportsPanel from '@/components/ReportsPanel';
+import LoginPanel from '@/components/LoginPanel';
 import type { TabConfig } from '@/types/TabConfig';
 
 // Entry point page for the MVP UI, rendering the tabbed interface.
 // Educational note: Demonstrates component composition and extensibility via TabConfig.
 const MvpPage: React.FC = () => {
   const tabs: TabConfig[] = [
+    { namespace: 'login', title: 'Login', component: LoginPanel },
     { namespace: 'debug', title: 'Debug', component: DebugPanel },
     { namespace: 'control', title: 'Control Panel', component: ControlPanel },
     { namespace: 'analytics', title: 'Analytics', component: AnalyticsPanel },

@@ -40,10 +40,11 @@ describe('MvpPage', () => {
     expect(screen.getByText('Control Panel')).toBeInTheDocument();
   });
 
-  test('includes all tabs: debug, control, analytics, settings, reports', () => {
+  test('includes all tabs: login, debug, control, analytics, settings, reports', () => {
     render(<MvpPage />);
 
     // Verify all tabs are present
+    expect(screen.getByText('Login')).toBeInTheDocument();
     expect(screen.getByText('Debug')).toBeInTheDocument();
     expect(screen.getByText('Control Panel')).toBeInTheDocument();
     expect(screen.getByText('Analytics')).toBeInTheDocument();
