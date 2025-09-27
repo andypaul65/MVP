@@ -22,7 +22,7 @@ const MvpPage: React.FC = () => {
 
   return (
     <div>
-      <h1>MVP UI</h1>
+      <h2 className="cyberpunk-header">MVP UI</h2>
       <TabbedInterface tabs={tabs} />
     </div>
   );

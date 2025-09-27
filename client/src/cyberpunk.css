@@ -8,6 +8,14 @@
   border-radius: 8px;
 }
 
+/* Header styling */
+.cyberpunk-header {
+  color: #00FF00;
+  font-size: 1.5rem;
+  margin: 10px 20px;
+  text-align: center;
+}
+
 /* Tab list styling */
 .cyberpunk-tabs {
   list-style: none;

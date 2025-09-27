@@ -27,7 +27,7 @@ describe('MvpPage', () => {
   test('renders MVP UI title', () => {
     render(<MvpPage />);
 
-    expect(screen.getByText('MVP UI')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'MVP UI' })).toBeInTheDocument();
   });
 
   test('renders TabbedInterface with correct tabs', () => {
