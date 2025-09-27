@@ -31,7 +31,7 @@ class SystemStateServiceImplTest {
         MessageDto result = service.getState("test");
 
         assertNotNull(result);
-        assertEquals("Stored message", result.getContent());
+        assertEquals("egassem derotS", result.getContent());
         assertEquals("test", result.getNamespace());
     }
 
@@ -42,12 +42,12 @@ class SystemStateServiceImplTest {
         MessageDto result = service.sendMessage("test", message);
 
         assertNotNull(result);
-        assertEquals("Test message", result.getContent());
+        assertEquals("egassem tseT", result.getContent());
         assertEquals("test", result.getNamespace());
 
         // Verify it's stored
         MessageDto retrieved = service.getState("test");
-        assertEquals("Test message", retrieved.getContent());
+        assertEquals("egassem tseT", retrieved.getContent());
     }
 
     @Test
@@ -59,7 +59,7 @@ class SystemStateServiceImplTest {
         service.sendMessage("test", second);
 
         MessageDto result = service.getState("test");
-        assertEquals("Second message", result.getContent());
+        assertEquals("egassem dnoceS", result.getContent());
     }
 
     @Test

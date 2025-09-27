@@ -17,15 +17,21 @@ describe('useSystemState', () => {
     vi.clearAllMocks();
   });
 
-  it('should initialize with loading true and no state', () => {
+  it('should initialize with loading true and no state', async () => {
     (apiService.getState as any).mockResolvedValue({ content: 'Initial', namespace: 'test' });
 
     const { result } = renderHook(() => useSystemState('test'));
 
+    // Initial synchronous state
     expect(result.current.loading).toBe(true);
     expect(result.current.state).toBe(null);
     expect(result.current.messages).toEqual([]);
     expect(result.current.error).toBe(null);
+
+    // Wait for async load to complete
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
   });
 
   it('should load state on mount and update state', async () => {
@@ -61,7 +67,7 @@ describe('useSystemState', () => {
   it('should send message and reload state', async () => {
     const initialDto: MessageDto = { content: 'Initial', namespace: 'test' };
     const sentMessage: MessageDto = { content: 'New message', namespace: 'test' };
-    const updatedDto: MessageDto = { content: 'Updated', namespace: 'test' };
+    const updatedDto: MessageDto = { content: 'egassem weN', namespace: 'test' }; // Reversed
 
     (apiService.getState as any)
       .mockResolvedValueOnce(initialDto)
@@ -80,7 +86,7 @@ describe('useSystemState', () => {
 
     expect(apiService.sendMessage).toHaveBeenCalledWith('test', sentMessage);
     expect(apiService.getState).toHaveBeenCalledTimes(2); // Initial load and after send
-    expect(result.current.state).toBe('Updated');
+    expect(result.current.state).toBe('egassem weN'); // Reversed
     expect(result.current.messages).toEqual([updatedDto]);
   });
 

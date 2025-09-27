@@ -24,21 +24,21 @@ class SystemStateServiceIntegrationTest {
         assertEquals("newNamespace", result.getNamespace());
     }
 
-    @Test
-    void sendMessage_UpdatesAndReturnsMessage() {
-        MessageDto message = new MessageDto("Updated message", "testNamespace");
+@Test
+void sendMessage_UpdatesAndReturnsMessage() {
+    MessageDto message = new MessageDto("Updated message", "testNamespace");
 
-        MessageDto result = systemStateService.sendMessage("testNamespace", message);
+    MessageDto result = systemStateService.sendMessage("testNamespace", message);
 
-        assertNotNull(result);
-        assertEquals("Updated message", result.getContent());
-        assertEquals("testNamespace", result.getNamespace());
+    assertNotNull(result);
+    assertEquals("egassem detadpU", result.getContent()); // Reversed
+    assertEquals("testNamespace", result.getNamespace());
 
-        // Verify state is updated
-        MessageDto retrieved = systemStateService.getState("testNamespace");
-        assertEquals("Updated message", retrieved.getContent());
-        assertEquals("testNamespace", retrieved.getNamespace());
-    }
+    // Verify state is updated
+    MessageDto retrieved = systemStateService.getState("testNamespace");
+    assertEquals("egassem detadpU", retrieved.getContent());
+    assertEquals("testNamespace", retrieved.getNamespace());
+}
 
     @Test
     void getState_AfterSendMessage() {
@@ -47,7 +47,7 @@ class SystemStateServiceIntegrationTest {
 
         MessageDto result = systemStateService.getState("anotherNamespace");
 
-        assertEquals("Another message", result.getContent());
+        assertEquals("egassem rehtonA", result.getContent()); // Reversed
         assertEquals("anotherNamespace", result.getNamespace());
     }
 }

@@ -36,6 +36,9 @@ describe('ControlPanel Integration', () => {
     // After send, input cleared (assuming success)
     await waitFor(() => {
       expect(input).toHaveValue('');
+      // Check that the reversed message is displayed in the message display area
+      const messageDisplay = screen.getByText('Last Received:').nextElementSibling;
+      expect(messageDisplay).toHaveTextContent('egassem tseT'); // Reversed 'Test message'
     });
   });
 

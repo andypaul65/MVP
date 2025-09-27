@@ -5,17 +5,18 @@ import com.example.dto.LoginRequest;
 import com.example.dto.UserDto;
 import com.example.security.JwtUtil;
 import com.example.services.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class AuthControllerUnitTest {
 
     @Mock
@@ -26,11 +27,6 @@ class AuthControllerUnitTest {
 
     @InjectMocks
     private AuthController controller;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void login_ValidCredentials_ReturnsToken() {

@@ -2,6 +2,7 @@ package com.example.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ajp.mvp.server.ServerApplication;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
@@ -26,8 +27,8 @@ class AuthControllerIntegrationTest {
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Autowired
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 

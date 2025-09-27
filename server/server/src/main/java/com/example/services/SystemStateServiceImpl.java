@@ -19,11 +19,12 @@ public class SystemStateServiceImpl implements SystemStateService {
         return stateStore.getOrDefault(namespace, new MessageDto("Default state for " + namespace, namespace));
     }
 
-    @Override
-    public MessageDto sendMessage(String namespace, MessageDto message) {
-        // Process and store the message (e.g., update state)
-        message.setNamespace(namespace); // Ensure namespace is set
-        stateStore.put(namespace, message);
-        return message; // Return the processed message
-    }
+@Override
+public MessageDto sendMessage(String namespace, MessageDto message) {
+    // Process and store the message (e.g., reverse content)
+    message.setNamespace(namespace); // Ensure namespace is set
+    message.setContent(new StringBuilder(message.getContent()).reverse().toString());
+    stateStore.put(namespace, message);
+    return message; // Return the processed message
+}
 }

@@ -37,20 +37,21 @@ class MvpControllerTest {
         verify(stateService).getState("test");
     }
 
+@Test
+void sendMessage_CallsServiceAndReturnsResult() {
+    MessageDto message = new MessageDto("Test message", "test");
+    MessageDto processed = new MessageDto("egassem tseT", "test"); // Reversed
+    when(stateService.sendMessage("test", message)).thenReturn(processed);
+
+    ResponseEntity<MessageDto> response = controller.sendMessage("test", message);
+
+    assertEquals(200, response.getStatusCodeValue());
+    assertEquals(processed, response.getBody());
+    verify(stateService).sendMessage("test", message);
+}
+
     @Test
-    void sendMessage_CallsServiceAndReturnsResult() {
-        MessageDto message = new MessageDto("Test message", "test");
-        MessageDto processed = new MessageDto("Processed message", "test");
-        when(stateService.sendMessage("test", message)).thenReturn(processed);
-
-        ResponseEntity<MessageDto> response = controller.sendMessage("test", message);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(processed, response.getBody());
-        verify(stateService).sendMessage("test", message);
-    }
-
-    @Test
+    @SuppressWarnings("unchecked")
     void heartbeat_ReturnsAliveStatus() {
         ResponseEntity<?> response = controller.heartbeat();
 

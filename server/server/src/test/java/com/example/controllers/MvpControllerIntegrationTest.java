@@ -60,7 +60,7 @@ class MvpControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(message)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.content").value("Test message"))
+                .andExpect(jsonPath("$.content").value("egassem tseT")) // Reversed
                 .andExpect(jsonPath("$.namespace").value("sendTest"));
     }
 

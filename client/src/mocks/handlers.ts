@@ -23,8 +23,9 @@ export const handlers = [
         async ({ params, request }) => {
             const { namespace } = params;
             const message: MessageDto = await request.json();
+            const reversed = message.content.split('').reverse().join('');
             return HttpResponse.json({
-                content: `Echo: ${message.content}`,
+                content: reversed,
                 namespace: namespace,
             });
         },
