@@ -81,10 +81,10 @@ export const useSystemState = (namespace: string): SystemState => {
   };
 
   const disconnectWebSocket = () => {
-    if (stompClientRef.current) {
+    if (stompClientRef.current && stompClientRef.current.connected) {
       stompClientRef.current.disconnect();
-      stompClientRef.current = null;
     }
+    stompClientRef.current = null;
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
       reconnectTimeoutRef.current = null;
