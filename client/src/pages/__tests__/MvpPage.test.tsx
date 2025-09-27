@@ -30,12 +30,6 @@ describe('MvpPage', () => {
     expect(screen.getByText('MVP UI')).toBeInTheDocument();
   });
 
-  test('displays demo login credentials', () => {
-    render(<MvpPage />);
-
-    expect(screen.getByText('Demo Login: user@example.com / 656frfRRf')).toBeInTheDocument();
-  });
-
   test('renders TabbedInterface with correct tabs', () => {
     render(<MvpPage />);
 

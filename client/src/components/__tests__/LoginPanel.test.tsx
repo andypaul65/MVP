@@ -33,6 +33,7 @@ describe('LoginPanel', () => {
     expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
+    expect(screen.getByText('Demo: user@example.com / 656frfRRf')).toBeInTheDocument();
   });
 
   test('shows welcome message when authenticated', async () => {

@@ -52,7 +52,7 @@ const LoginPanel: React.FC = () => {
         <button className="control-button" type="submit">Login</button>
       </form>
       {error && <p className="debug-log error">{error}</p>}
-      <p>Demo: user@example.com / password</p>
+      <p>Demo: user@example.com / 656frfRRf</p>
     </div>
   );
 };

@@ -23,7 +23,6 @@ const MvpPage: React.FC = () => {
   return (
     <div>
       <h1>MVP UI</h1>
-      <p>Demo Login: user@example.com / 656frfRRf</p>
       <TabbedInterface tabs={tabs} />
     </div>
   );
