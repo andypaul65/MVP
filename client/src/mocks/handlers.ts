@@ -38,4 +38,26 @@ export const handlers = [
             });
         },
     ),
+    http.post('http://localhost:8080/auth/login', async ({ request }) => {
+        const body = await request.json();
+        if (body.username === 'user@example.com' && body.password === 'password') {
+            return HttpResponse.json({
+                token: 'mock-jwt-token',
+                user: { id: 1, username: 'user@example.com', name: 'Demo User' }
+            });
+        } else {
+            return new HttpResponse(null, { status: 401 });
+        }
+    }),
+    http.post('http://localhost:8080/auth/logout', () => {
+        return HttpResponse.json({});
+    }),
+    http.get('http://localhost:8080/auth/me', ({ request }) => {
+        const auth = request.headers.get('Authorization');
+        if (auth === 'Bearer mock-jwt-token') {
+            return HttpResponse.json({ id: 1, username: 'user@example.com', name: 'Demo User' });
+        } else {
+            return new HttpResponse(null, { status: 401 });
+        }
+    }),
 ];
