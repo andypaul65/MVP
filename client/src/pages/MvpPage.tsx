@@ -21,7 +21,7 @@ const MvpPage: React.FC = () => {
   ];
 
   return (
-    <div>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <h2 className="cyberpunk-header">MVP UI</h2>
       <TabbedInterface tabs={tabs} />
     </div>

@@ -17,7 +17,7 @@ const TabbedInterface: React.FC<TabbedInterfaceProps> = ({ tabs }) => {
   }, [activeTab, tabs]);
 
   return (
-    <div className="cyberpunk-container"> {/* Applies dark gray background and green accents */}
+    <div className="cyberpunk-container" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}> {/* Applies dark gray background and green accents */}
       <ul className="cyberpunk-tabs">
         {tabs.map((tab, index) => (
           <li
