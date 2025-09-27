@@ -104,4 +104,12 @@ describe('useSystemState', () => {
 
     expect(result.current.error).toBe(errorMessage);
   });
+
+  it('should not throw error on unmount without WebSocket connection', () => {
+    // Test that cleanup doesn't fail if WebSocket was never connected
+    const { unmount } = renderHook(() => useSystemState('test'));
+
+    // This should not throw an error
+    expect(() => unmount()).not.toThrow();
+  });
 });
