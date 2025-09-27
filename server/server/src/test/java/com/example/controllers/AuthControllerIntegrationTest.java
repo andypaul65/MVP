@@ -36,7 +36,7 @@ class AuthControllerIntegrationTest {
         String json = """
             {
                 "username": "user@example.com",
-                "password": "password"
+                "password": "656frfRRf"
             }
             """;
 

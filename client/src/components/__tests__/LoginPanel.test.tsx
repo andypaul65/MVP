@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, test, expect, vi } from 'vitest';
+import { describe, test, expect, vi, beforeEach } from 'vitest';
 import LoginPanel from '../LoginPanel';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { apiService } from '@/services/apiService';
@@ -52,7 +52,7 @@ describe('LoginPanel', () => {
     const loginButton = screen.getByRole('button', { name: 'Login' });
 
     fireEvent.change(usernameInput, { target: { value: 'user@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.change(passwordInput, { target: { value: '656frfRRf' } });
     fireEvent.click(loginButton);
 
     await waitFor(() => {
@@ -77,7 +77,7 @@ describe('LoginPanel', () => {
     const loginButton = screen.getByRole('button', { name: 'Login' });
 
     fireEvent.change(usernameInput, { target: { value: 'wrong@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.change(passwordInput, { target: { value: '656frfRRf' } });
     fireEvent.click(loginButton);
 
     await waitFor(() => {

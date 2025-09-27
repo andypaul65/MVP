@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto authenticate(String username, String password) {
-        // Simple check: password is "password"
-        if ("password".equals(password) && users.containsKey(username)) {
+        // Simple check: password is "656frfRRf"
+        if ("656frfRRf".equals(password) && users.containsKey(username)) {
             return users.get(username);
         }
         return null;

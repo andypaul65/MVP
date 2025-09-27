@@ -39,8 +39,8 @@ export const handlers = [
         },
     ),
     http.post('http://localhost:8080/auth/login', async ({ request }) => {
-        const body = await request.json();
-        if (body.username === 'user@example.com' && body.password === 'password') {
+        const body = await request.json() as { username: string; password: string };
+        if (body.username === 'user@example.com' && body.password === '656frfRRf') {
             return HttpResponse.json({
                 token: 'mock-jwt-token',
                 user: { id: 1, username: 'user@example.com', name: 'Demo User' }

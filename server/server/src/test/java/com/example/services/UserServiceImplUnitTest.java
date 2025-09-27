@@ -10,7 +10,7 @@ class UserServiceImplUnitTest {
 
     @Test
     void authenticate_ValidCredentials_ReturnsUser() {
-        UserDto result = service.authenticate("user@example.com", "password");
+        UserDto result = service.authenticate("user@example.com", "656frfRRf");
 
         assertNotNull(result);
         assertEquals("user@example.com", result.getUsername());
@@ -26,7 +26,7 @@ class UserServiceImplUnitTest {
 
     @Test
     void authenticate_UnknownUser_ReturnsNull() {
-        UserDto result = service.authenticate("unknown@example.com", "password");
+        UserDto result = service.authenticate("unknown@example.com", "656frfRRf");
 
         assertNull(result);
     }
