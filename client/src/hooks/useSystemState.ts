@@ -65,18 +65,21 @@ export const useSystemState = (namespace: string): SystemState => {
           }
         });
       }, (error: any) => {
-        console.error('WebSocket connection error:', error);
+        // Only log error, don't set error state - this allows HTTP fallback to work
+        console.warn('WebSocket connection failed, falling back to HTTP polling:', error?.message || 'Unknown error');
         setIsConnected(false);
-        setError('WebSocket connection failed');
+        // Don't set error state here - let HTTP API handle errors
 
-        // Attempt to reconnect after 5 seconds
-        reconnectTimeoutRef.current = setTimeout(connectWebSocket, 5000);
+        // Attempt to reconnect after 10 seconds (longer delay to avoid spam)
+        reconnectTimeoutRef.current = setTimeout(connectWebSocket, 10000);
       });
 
       stompClientRef.current = stompClient;
     } catch (err) {
-      console.error('WebSocket setup error:', err);
-      setError('WebSocket setup failed');
+      // WebSocket setup failed - this is expected when server is not running
+      console.warn('WebSocket setup failed, will use HTTP fallback:', err);
+      setIsConnected(false);
+      // Don't set error state - allow HTTP API to work
     }
   };
 

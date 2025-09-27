@@ -121,6 +121,28 @@
   background-color: #00DD00; /* Slightly darker green */
 }
 
+.control-button:disabled {
+  background-color: #666666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Connection status indicator */
+.connection-status {
+  margin-bottom: 15px;
+  text-align: right;
+}
+
+.status-connected {
+  color: #00FF00;
+  font-weight: bold;
+}
+
+.status-disconnected {
+  color: #FFFF00;
+  font-weight: bold;
+}
+
 .message-display {
   background-color: #000000;
   color: #00FF00;

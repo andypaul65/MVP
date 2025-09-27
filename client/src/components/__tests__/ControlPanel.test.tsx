@@ -71,4 +71,16 @@ describe('ControlPanel Integration', () => {
       expect(display).toHaveClass('message-display');
     });
   });
+
+  test('displays connection status indicator', async () => {
+    render(<ControlPanel namespace="control" />);
+
+    await waitFor(() => {
+      // In test mode, WebSocket is disabled, so should show disconnected status
+      expect(screen.getByText('🟡 HTTP Mode')).toBeInTheDocument();
+    });
+
+    const statusElement = screen.getByText('🟡 HTTP Mode');
+    expect(statusElement).toHaveClass('status-disconnected');
+  });
 });

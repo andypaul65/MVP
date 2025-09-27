@@ -10,7 +10,7 @@ interface ControlPanelProps {
 // Component for controlling the system: sending messages and displaying state.
 // Educational note: Demonstrates form handling, async operations, and integration with custom hooks.
 const ControlPanel: React.FC<ControlPanelProps> = ({ namespace }) => {
-  const { state, messages, error, loading, sendMessage } = useSystemState(namespace);
+  const { state, messages, error, loading, sendMessage, isConnected } = useSystemState(namespace);
   const [inputMessage, setInputMessage] = useState('');
   const [sending, setSending] = useState(false);
 
@@ -32,6 +32,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ namespace }) => {
   return (
     <div className="control-panel">
       <h2>Control Panel - {namespace}</h2>
+      <div className="connection-status">
+        <span className={isConnected ? 'status-connected' : 'status-disconnected'}>
+          {isConnected ? '🟢 Connected (Real-time)' : '🟡 HTTP Mode'}
+        </span>
+      </div>
       {loading && <p>Loading...</p>}
       {error && <p className="debug-log error">Error: {error}</p>}
       <div>
