@@ -61,4 +61,13 @@ export const handlers = [
             return new HttpResponse(null, { status: 401 });
         }
     }),
+    // Handle SockJS info requests for WebSocket connection setup
+    http.get('http://localhost:8080/ws/info', () => {
+        return HttpResponse.json({
+            entropy: Math.random(),
+            origins: ['*:*'],
+            cookie_needed: false,
+            websocket: true,
+        });
+    }),
 ];
