@@ -30,7 +30,16 @@ const TabbedInterface: React.FC<TabbedInterfaceProps> = ({ tabs }) => {
         ))}
       </ul>
       <div className="cyberpunk-content" style={tabs[activeTab]?.style}>
-        {React.createElement(tabs[activeTab].component, { namespace: tabs[activeTab].namespace })}
+        {tabs[activeTab]?.children ? (
+          // Render nested tabs if children exist
+          React.createElement(tabs[activeTab].component, {
+            namespace: tabs[activeTab].namespace,
+            children: tabs[activeTab].children
+          })
+        ) : (
+          // Render component directly if no children
+          React.createElement(tabs[activeTab].component, { namespace: tabs[activeTab].namespace })
+        )}
       </div>
     </div>
   );
