@@ -7,24 +7,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Implementation of SystemStateService using in-memory persistence.
- * Manages state and message processing for different namespaces.
+ * Extends AbstractSystemStateService for customizable processing.
  */
 @Service
-public class SystemStateServiceImpl implements SystemStateService {
+public class SystemStateServiceImpl extends AbstractSystemStateService {
 
     private final ConcurrentHashMap<String, MessageDto> stateStore = new ConcurrentHashMap<>();
 
     @Override
     public MessageDto getState(String namespace) {
-        return stateStore.getOrDefault(namespace, new MessageDto("Default state for " + namespace, namespace));
+        return stateStore.getOrDefault(namespace, getDefaultState(namespace));
     }
 
-@Override
-public MessageDto sendMessage(String namespace, MessageDto message) {
-    // Process and store the message (e.g., reverse content)
-    message.setNamespace(namespace); // Ensure namespace is set
-    message.setContent(new StringBuilder(message.getContent()).reverse().toString());
-    stateStore.put(namespace, message);
-    return message; // Return the processed message
-}
+    @Override
+    protected void storeMessage(String namespace, MessageDto message) {
+        stateStore.put(namespace, message);
+    }
 }

@@ -11,9 +11,16 @@ const TabbedInterface: React.FC<TabbedInterfaceProps> = ({ tabs }) => {
 
   useEffect(() => {
     // Extension hook: Call onTabMount for namespace-specific initialization when tab becomes active.
-    if (tabs[activeTab]?.onTabMount) {
-      tabs[activeTab].onTabMount!();
+    const currentTab = tabs[activeTab];
+    if (currentTab?.hooks?.onTabMount) {
+      currentTab.hooks.onTabMount(currentTab.namespace);
     }
+    return () => {
+      // Call onTabUnmount when tab becomes inactive
+      if (currentTab?.hooks?.onTabUnmount) {
+        currentTab.hooks.onTabUnmount(currentTab.namespace);
+      }
+    };
   }, [activeTab, tabs]);
 
   return (

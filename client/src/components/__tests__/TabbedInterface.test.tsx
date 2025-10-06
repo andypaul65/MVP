@@ -20,7 +20,9 @@ describe('TabbedInterface', () => {
       namespace: 'tab1',
       title: 'Tab 1',
       component: MockComponent1,
-      onTabMount: mockOnTabMount,
+      hooks: {
+        onTabMount: mockOnTabMount,
+      },
     },
     {
       namespace: 'tab2',
@@ -67,13 +69,14 @@ describe('TabbedInterface', () => {
 
   test('calls onTabMount when tab becomes active', () => {
     render(<TabbedInterface tabs={tabs} />);
-    expect(mockOnTabMount).toHaveBeenCalledTimes(1); // Initial mount
+    expect(mockOnTabMount).toHaveBeenCalledWith('tab1'); // Initial mount with namespace
 
     fireEvent.click(screen.getByText('Tab 2'));
     expect(mockOnTabMount).toHaveBeenCalledTimes(1); // Not called again since tab2 has no onTabMount
 
     fireEvent.click(screen.getByText('Tab 1'));
     expect(mockOnTabMount).toHaveBeenCalledTimes(2); // Called again when switching back
+    expect(mockOnTabMount).toHaveBeenNthCalledWith(2, 'tab1');
   });
 
   test('applies cyberpunk theme classes', () => {
