@@ -284,13 +284,27 @@ my-extension/
 
 ### Versioning and Publishing Process
 To maintain a reliable ecosystem:
-1. **Semantic Versioning**: Update versions in `package.json` (client) and `pom.xml` (server) following SemVer conventions.
-2. **Pre-Release Checks**: Run full test suites, build, and verify compatibility before publishing.
-3. **Publishing Workflow**:
-   - **Server**: Use Maven release plugin or manual `mvn deploy` to publish JAR to repository (e.g., Maven Central).
-   - **Client**: After build, authenticate with NPM token and run `npm publish`.
-4. **Changelog**: Maintain a `CHANGELOG.md` documenting version changes and breaking changes.
-5. **Dependency Management**: Extending projects should specify version ranges (e.g., `^1.0.0`) to allow patches but avoid breaking changes.
+
+1. **Development Workflow**:
+   - Use `-SNAPSHOT` versions (e.g., `0.0.1-SNAPSHOT` in Maven, `0.0.1-dev` or similar in NPM) for iterative development, commits, and internal deployments. This allows multiple deployments without version changes, supporting ongoing testing and integration.
+   - Commits and builds can proceed with SNAPSHOT versions as they do not require version bumps for each change.
+
+2. **Release Preparation**:
+   - When ready for official release, remove `-SNAPSHOT` and update to a stable version following SemVer (e.g., `0.0.1` for initial release).
+   - Run full pre-release checks: full test suites, builds, and compatibility verification.
+
+3. **Semantic Versioning**: Update versions in `package.json` (client) and `pom.xml` (server) following SemVer conventions (MAJOR.MINOR.PATCH):
+   - **MAJOR**: Breaking changes (e.g., 1.0.0 → 2.0.0).
+   - **MINOR**: New features (backward-compatible).
+   - **PATCH**: Bug fixes.
+
+4. **Publishing Workflow**:
+   - **Server**: Use Maven release plugin or manual `mvn deploy` to publish JAR to repository (e.g., GitHub Packages). For releases, deploy stable versions; for development, deploy SNAPSHOTS.
+   - **Client**: After build, authenticate with NPM token and run `npm publish` for stable releases.
+
+5. **Changelog**: Maintain a `CHANGELOG.md` documenting version changes and breaking changes.
+
+6. **Dependency Management**: Extending projects should specify version ranges (e.g., `^1.0.0` for NPM, exact versions for Maven) to allow patches but avoid breaking changes. Pin to stable releases for production stability.
 
 ## API Reference
 - Server Endpoints: See `api-contracts.json`
