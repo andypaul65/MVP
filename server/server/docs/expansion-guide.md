@@ -57,6 +57,36 @@ To enable publishing the client library to NPM:
 
 3. **Publish Command**: After building (`npm run build`), run `npm publish` to release the package to NPM registry.
 
+#### Server Publishing Setup
+To enable deploying the server JAR to GitHub Packages:
+
+1. **Add `distributionManagement` to pom.xml**:
+   ```xml
+   <distributionManagement>
+       <repository>
+           <id>github</id>
+           <name>GitHub Packages</name>
+           <url>https://maven.pkg.github.com/andypaul65/MVP</url>
+       </repository>
+   </distributionManagement>
+   ```
+
+2. **Configure GitHub Personal Access Token (PAT)**:
+   - Create a PAT in GitHub Settings > Developer settings > Personal access tokens > Tokens (classic) with `write:packages` and `read:packages` scopes.
+   - Add to `~/.m2/settings.xml`:
+     ```xml
+     <servers>
+         <server>
+             <id>github</id>
+             <username>andypaul65</username>
+             <password>YOUR_GITHUB_PAT</password>
+         </server>
+     </servers>
+     ```
+     - Replace `YOUR_GITHUB_PAT` with your GitHub PAT. This authenticates Maven to GitHub Packages.
+
+3. **Deploy Command**: Run `mvn deploy` to upload the JAR. Ensure the repository is public or the PAT has access. For snapshots, append `-SNAPSHOT` to version in pom.xml.
+
 ## Core Interfaces and Contracts
 
 ### Server Contracts
@@ -209,6 +239,26 @@ registry.registerService("customState", new CustomSystemStateService());
 ```bash
 npm install @ajp/mvp-client react react-dom
 ```
+
+### Repository Configuration for Subprojects
+
+#### Maven Repository Setup
+To use the published JAR from GitHub Packages in a subproject:
+
+1. **Add repository to pom.xml**:
+   ```xml
+   <repositories>
+       <repository>
+           <id>github</id>
+           <url>https://maven.pkg.github.com/andypaul65/MVP</url>
+       </repository>
+   </repositories>
+   ```
+
+2. **Update dependency version** to the released version (e.g., `0.0.1` instead of `0.0.1-SNAPSHOT`).
+
+#### NPM Package Usage
+The `@ajp/mvp-client` package is published to NPM registry. Subprojects can install it directly via `npm install @ajp/mvp-client`. No additional repository setup needed for public packages.
 
 ### Project Structure Example
 ```
