@@ -182,11 +182,23 @@ To ensure safe and reliable command execution, follow these guardrails:
 ### Failure Analysis Approach
 - **Exit Code 1 Handling**: Analyze command output thoroughly before any retry attempts
 - **Root Cause Focus**: If tests/commands fail repeatedly, prioritize fixing underlying code/logic
-- **Diagnostic Tools**: Use logs, debug output, and code inspection for failure diagnosis
+- **Diagnostic Tools**: Use logs, debug output, and code inspection for failure diagnosis. For npm commands, inspect npm logs via `npm run <command> --verbose`.
 
 ### Command Restrictions
-- **Server Startup**: Do not use `mvnw spring-boot:run` - request manual server startup in separate console/IDE
+- **Server Startup**: Use `npm run dev` for local development server, but note potential port conflicts; request manual server startup in separate console/IDE if needed.
 - **Purpose**: Prevents port conflicts and enables independent server management
+
+## Design Document Maintenance (MANDATORY)
+
+**All design documents must be kept current and synchronized with code:**
+
+- **Documentation Structure**: Maintain organized docs in `docs/` with clear folder structure (design/, guidelines/, BDD/)
+- **Version Synchronization**: Update component diagrams, sequence diagrams, API specs, and architectural docs when code changes
+- **Review Process**: Peer review required for all design document modifications
+- **Change Tracking**: Document rationale for design changes and alternatives considered
+- **Accessibility**: Ensure docs are clear, well-structured, and discoverable
+
+**Commits that modify code without updating related design documents are not permitted.**
 
 ## Verification and Testing Processes
 
@@ -196,8 +208,10 @@ Incorporate checks at milestones to catch issues proactively.
 - **Development Workflow**:
   1. `npm install` for dependencies.
   2. `npm run dev` for hot reloading.
-  3. Browser console checks for runtime errors.
-- **IDE Tips**: Restart TypeScript server post-config updates.
+  3. `npm test` for unit/integration tests (using Jest/Vitest).
+  4. BDD if applicable (e.g., Cypress for E2E): `npm run cypress:run`.
+  5. Browser console checks for runtime errors.
+- **IDE Tips**: Restart TypeScript server post-config updates. Use VS Code extensions: ESLint, Prettier, TypeScript Importer.
 
 ## Common Pitfalls and Resolutions
 
@@ -205,8 +219,7 @@ Incorporate checks at milestones to catch issues proactively.
 - **Alias Discrepancies**: Ensure `tsconfig` paths mirror Vite `resolve.alias`.
 - **Unused Declarations**: Use underscores for intentional omissions.
 - **Node.js Types**: Always install `@types/node` to resolve built-in module errors.
-
-
+- **Frontend-Specific**: TS alias mismatches (resolve: `npm run type-check`); React hook rules violations (fix: ESLint --fix).
 
 ## Development Environment Setup
 
@@ -219,5 +232,35 @@ Always ensure proper `.gitignore` configuration to prevent committing system fil
 - **Environment Files**: `.env*` files are ignored for security
 
 **Before initial commit**: Verify `.gitignore` exists and contains appropriate exclusions.
+
+## Mandatory Pre-Commit Checklist
+
+**NO CODE CHANGES MAY BE COMMITTED WITHOUT COMPLETING THIS CHECKLIST:**
+
+### Design Documentation
+- [ ] Design documents updated to reflect planned changes
+- [ ] Component diagrams, sequence diagrams, API specs synchronized with code
+- [ ] Peer review completed for design document changes
+- [ ] Documentation committed alongside code changes
+
+### Code Quality
+- [ ] `npm run lint` and `npm run build` succeed without errors
+- [ ] Code follows established coding standards
+- [ ] Inline comments explain complex logic
+- [ ] No TODO/FIXME comments left unresolved
+
+### Testing Requirements
+- [ ] `npm test` passes all unit and integration tests (80%+ coverage)
+- [ ] BDD/E2E tests (e.g., Cypress) pass if applicable
+- [ ] New business functionality has corresponding tests
+- [ ] Existing tests still pass (no regressions)
+
+### Verification Steps
+- [ ] Manual UX testing of core functionality completed
+- [ ] Logs reviewed for errors or warnings
+- [ ] Build artifacts cleaned (`npm run clean`)
+- [ ] Commit message clearly describes changes and links to updated docs
+
+**FAILURE TO COMPLETE ANY CHECKLIST ITEM PREVENTS COMMITTING**
 
 Review this document periodically as the project evolves. Non-compliance requires justification in pull requests.
