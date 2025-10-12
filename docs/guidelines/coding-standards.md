@@ -200,6 +200,19 @@ To ensure safe and reliable command execution, follow these guardrails:
 
 **Commits that modify code without updating related design documents are not permitted.**
 
+## API Contract Enforcement (MANDATORY)
+
+**API contracts must be explicitly defined, validated, and enforced to ensure client-server consistency:**
+
+- **Contract Definition**: Maintain a single API contract specification file (e.g., `api-contracts.json`) in the server resources, defining all endpoints, schemas, and data models. This serves as the authoritative source for API behavior.
+- **Validation Requirements**: Validate the contract against implementation before any commit. Use automated tools (e.g., code generation, schema validation, or linting) to detect mismatches in endpoints, request/response structures, or data types. Manual inspection required if automated tools are unavailable.
+- **Update Process**: When modifying APIs (adding/removing endpoints, changing schemas), update the contract spec first, then regenerate/update dependent code (e.g., DTOs, client SDKs). Document changes in design docs and commit spec alongside implementation.
+- **Testing Safeguards**: Include contract compliance in tests—e.g., integration tests with mocked endpoints matching the spec, schema validation in unit tests, and E2E tests verifying real API calls. Achieve 100% coverage of spec-defined endpoints in tests.
+- **Enforcement Mechanisms**: Implement build-time checks (e.g., via Maven plugins or scripts) to enforce contract adherence. Peer review mandatory for contract changes. No API code changes without passing validation and tests.
+- **Versioning and Sync**: Version the contract spec semantically. Ensure client/server sync via generated code or manual alignment. Logs must reflect contract compliance.
+
+**Failures in contract enforcement will result in build/test failures and prevent commits.**
+
 ## Verification and Testing Processes
 
 Incorporate checks at milestones to catch issues proactively.
@@ -229,7 +242,7 @@ Always ensure proper `.gitignore` configuration to prevent committing system fil
 - **macOS Users**: `.DS_Store` files are automatically ignored
 - **IDE Files**: `.vscode/`, `.idea/` directories are ignored
 - **Build Artifacts**: `dist/`, `node_modules/`, `*.log` files are ignored
-- **Environment Files**: `.env*` files are ignored for security
+- **Environment and Secret Files**: `.env*`, `.npmrc`, `config/secrets.json`, `config/*.key` files are ignored for security to prevent exposing tokens or credentials
 
 **Before initial commit**: Verify `.gitignore` exists and contains appropriate exclusions.
 
@@ -242,6 +255,7 @@ Always ensure proper `.gitignore` configuration to prevent committing system fil
 - [ ] Component diagrams, sequence diagrams, API specs synchronized with code
 - [ ] Peer review completed for design document changes
 - [ ] Documentation committed alongside code changes
+- [ ] API contract spec validated against code (e.g., via generation or schema checks)
 
 ### Code Quality
 - [ ] `npm run lint` and `npm run build` succeed without errors
@@ -254,11 +268,13 @@ Always ensure proper `.gitignore` configuration to prevent committing system fil
 - [ ] BDD/E2E tests (e.g., Cypress) pass if applicable
 - [ ] New business functionality has corresponding tests
 - [ ] Existing tests still pass (no regressions)
+- [ ] API contract compliance tested (e.g., integration tests, schema validation)
 
 ### Verification Steps
 - [ ] Manual UX testing of core functionality completed
 - [ ] Logs reviewed for errors or warnings
 - [ ] Build artifacts cleaned (`npm run clean`)
+- [ ] Contract spec updated and synchronized with API changes
 - [ ] Commit message clearly describes changes and links to updated docs
 
 **FAILURE TO COMPLETE ANY CHECKLIST ITEM PREVENTS COMMITTING**

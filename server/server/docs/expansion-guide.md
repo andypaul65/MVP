@@ -31,6 +31,32 @@ Extensions are achieved through:
   - `dist/index.d.ts`: TypeScript definitions.
 - **Build Command**: `npm run build` generates the library bundle.
 
+#### Publishing Setup
+To enable publishing the client library to NPM:
+1. **Create `.npmrc` file** in the client project root:
+   ```
+   registry=https://registry.npmjs.org/
+   //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+   ```
+   - Replace `${NPM_TOKEN}` with your NPM authentication token (obtain from NPM account settings).
+   - For public publishing, ensure the package.json includes `"publishConfig": { "access": "public" }` if using a scoped package.
+
+2. **Update package.json** for publishing:
+   ```json
+   {
+     "name": "@ajp/mvp-client",
+     "version": "0.0.1",
+     "publishConfig": {
+       "access": "public"
+     },
+     "files": ["dist"],
+     "main": "dist/index.js",
+     "types": "dist/index.d.ts"
+   }
+   ```
+
+3. **Publish Command**: After building (`npm run build`), run `npm publish` to release the package to NPM registry.
+
 ## Core Interfaces and Contracts
 
 ### Server Contracts
@@ -204,7 +230,17 @@ my-extension/
 - **Hook Overrides**: Implement abstract methods thoughtfully.
 - **Registry Patterns**: Register extensions early in lifecycle.
 - **Testing**: Extend base tests for custom logic.
-- **Versioning**: Pin framework versions for stability.
+- **Versioning**: Follow semantic versioning (MAJOR.MINOR.PATCH) for framework releases. Pin dependency versions in extending projects for stability. Increment versions on breaking changes, new features, or bug fixes.
+
+### Versioning and Publishing Process
+To maintain a reliable ecosystem:
+1. **Semantic Versioning**: Update versions in `package.json` (client) and `pom.xml` (server) following SemVer conventions.
+2. **Pre-Release Checks**: Run full test suites, build, and verify compatibility before publishing.
+3. **Publishing Workflow**:
+   - **Server**: Use Maven release plugin or manual `mvn deploy` to publish JAR to repository (e.g., Maven Central).
+   - **Client**: After build, authenticate with NPM token and run `npm publish`.
+4. **Changelog**: Maintain a `CHANGELOG.md` documenting version changes and breaking changes.
+5. **Dependency Management**: Extending projects should specify version ranges (e.g., `^1.0.0`) to allow patches but avoid breaking changes.
 
 ## API Reference
 - Server Endpoints: See `api-contracts.json`
