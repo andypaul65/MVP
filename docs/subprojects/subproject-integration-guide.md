@@ -176,3 +176,5 @@ Pin to stable versions for production (e.g., `0.0.1`). Use version ranges for de
 - Maintain your subproject's changelog for version tracking.
 
 This guide ensures seamless integration of the MVP backplane into your subproject.
+
+**As a living document, review and update this periodically to align with evolving MVP backplane releases, new integration patterns, and subproject needs.**

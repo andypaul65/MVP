@@ -1,5 +1,5 @@
 {
-  "name": "@ajp/mvp-client",
+  "name": "@nednederlander/mvp-client",
   "version": "0.0.1",
   "publishConfig": {
     "access": "public"
