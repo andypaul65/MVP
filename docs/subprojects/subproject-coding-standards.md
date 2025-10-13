@@ -2,6 +2,8 @@
 
 This document outlines the coding standards and best practices for subprojects building on the MVP backplane. It ensures consistency, maintainability, and scalability when extending the MVP framework. Adherence to these guidelines is mandatory, with references to the backplane's core standards. Subprojects should integrate seamlessly with the MVP base layer.
 
+**As a living document, review and update this periodically to align with evolving MVP backplane changes, new subproject needs, and main guideline updates.**
+
 ## Project Initialization and Dependencies
 
 To establish a robust foundation for a subproject, scaffold the project (e.g., via `npm init vite@latest` for a React + TypeScript setup) and integrate the MVP backplane as per the `subproject-integration-guide.md`.
