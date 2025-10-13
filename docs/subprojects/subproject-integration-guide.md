@@ -91,7 +91,7 @@ Register services via `ServiceRegistry` in your configuration.
 In your subproject's client directory, install the MVP client package:
 
 ```bash
-npm install @ajp/mvp-client react react-dom
+npm install @nednederlander/mvp-client react react-dom
 ```
 
 ### Configure Build and Scripts
