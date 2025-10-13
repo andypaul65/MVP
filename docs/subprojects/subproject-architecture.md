@@ -55,8 +55,15 @@ Use Spring Boot's @Configuration for modular setup, allowing overrides via profi
 
 ## Extension Hooks:
  Define abstract services with protected methods for subclasses to extend core functionality.
-## Debugging Hooks: 
+## Debugging Hooks:
 Enable Spring Boot Actuator endpoints (e.g., /actuator/health, /actuator/metrics) for runtime monitoring. Include logging with SLF4J and advise using IntelliJ's debugger with breakpoints in services.
+
+## Backend Isolation
+Subprojects support independent backend development and testing, decoupling server logic from the UI.
+
+- **Independent Server Runs**: Use `mvn spring-boot:run` to start the server standalone for backend-focused development. This allows testing APIs without client dependencies, facilitating iterative backend work.
+- **Minimal REST Endpoints**: Implement core endpoints (e.g., /api/state/{namespace}, /api/message/{namespace}) for functional testing. Use tools like Postman or curl for validation without a full UI.
+- **Backend-First Workflows**: Prioritize server development in iterative stages—e.g., build services and controllers first, then integrate with client. This ensures robust backend foundations before UI integration.
 
 # Communication Layer
 
@@ -113,7 +120,7 @@ For client-side development, MSW (Mock Service Worker) automatically intercepts 
 For server-side development, the backend can be run in isolation via `mvn spring-boot:run` for testing endpoints without the client. This enables independent server development while maintaining the same API contract expectations. When ready for integration testing, start the Spring Boot server on localhost:8080.
 
 ## Iterative Committable Stages:
-Structure development into discrete, testable stages (e.g., skeleton setup, core components, integrations). Each stage must include:
+Structure development into discrete, testable stages with a backend-first approach (e.g., backend skeleton, services, endpoints, then client components, integrations). Each stage must include:
 
 1. **Design spec updates** if needed
 2. **Code generation/review** with inline comments

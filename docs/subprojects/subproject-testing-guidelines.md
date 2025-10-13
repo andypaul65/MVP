@@ -125,6 +125,13 @@ Business requirements without passing Cucumber tests cannot be committed.
     }
     ```
 
+## Backend Isolation Testing
+Focus on server-side testing independent of the client UI for efficient backend development.
+
+- **Independent Server Runs**: Run `mvn spring-boot:run` to start the backend standalone. Test REST endpoints directly using Postman, curl, or scripts without client-side code.
+- **Minimal REST Endpoint Testing**: Validate core APIs (e.g., GET/POST to /api/state/{namespace}) for functionality. Use Spring Boot's test slices (@WebMvcTest) for controller-only tests.
+- **Backend-First Iterative Stages**: In workflows, test and iterate on server logic first—e.g., unit test services, then integration test endpoints—before client integration. This ensures backend robustness.
+
 ## Integration Testing
 **Integration Guidance**: Start with polling on client, evolving to WebSockets for real-time. Emphasize BDD integration for real-time features.
 
