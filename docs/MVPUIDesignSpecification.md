@@ -91,4 +91,16 @@ Client hooks should use useEffect for server polling, ensuring state consistency
 - Ensure all elements support extensibility through hooks and optional props.
 - Verify theme application via browser inspection and tests (e.g., color assertions).
 - Vitest's native Vite support improves efficiency; configure with JSDOM for DOM-based tests.
+
+## Key Terms
+- **Namespace**: A scoped identifier for isolating state, tabs, or messages (e.g., "cyberpunk" for themed content).
+- **Tabbed Interface**: The main UI component allowing dynamic tabs linked to namespaces.
+- **Cyberpunk Theme**: Dark gray (#1E1E1E) backgrounds, black borders, green (#00FF00) accents.
+- **Backplane**: The MVP framework's modular base layer for extensions.
+- **Registry**: A system for dynamically registering services or components.
+
+## See Also
+- [Architecture](guidelines/architecture.md): High-level design details.
+- [Framework Patterns](guidelines/framework-patterns.md): Extension mechanisms.
+- [Subproject Integration Guide](subprojects/subproject-integration-guide.md): For building on this spec.
 ```

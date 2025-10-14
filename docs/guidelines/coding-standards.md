@@ -1,5 +1,7 @@
 # Coding Standards
 
+**Last Updated**: 2025-10-13
+
 This document outlines the coding standards and best practices for the MVP project. It ensures consistency, maintainability, and scalability across all contributions. Adherence to these guidelines is mandatory during code generation (e.g., via tools like grok-code-fast) and manual implementations, with a post-generation review required to verify compliance.
 
 ## Project Initialization and Dependencies

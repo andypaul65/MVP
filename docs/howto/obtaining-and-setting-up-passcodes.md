@@ -84,3 +84,7 @@ The client TypeScript package is published to the NPM registry.
 - **Environment Variables**: For CI/CD, consider using environment variables instead of hardcoding tokens.
 
 Once set up, you can proceed with publishing. Refer to `docs/guidelines/expansion-guide.md` for deployment commands.
+
+## See Also
+- [Expansion Guide](../guidelines/expansion-guide.md): Deployment details.
+- [Subproject Integration Guide](../subprojects/subproject-integration-guide.md): For subproject setup.
