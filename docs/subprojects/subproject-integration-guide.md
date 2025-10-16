@@ -109,6 +109,8 @@ In your subproject's client directory, install the MVP client package:
 npm install @nednederlander/mvp-client react react-dom
 ```
 
+**Important**: Ensure React and React-DOM versions match those expected by the MVP client (currently React 19+). Version mismatches can cause runtime errors like "Cannot read properties of undefined (reading 'recentlyCreatedOwnerStacks')". Use compatible versions or update accordingly.
+
 ### Configure Build and Scripts
 Update `package.json` for the library build:
 
@@ -152,7 +154,11 @@ const myTab: TabConfig = {
 const tabs = [/* other tabs */, myTab];
 
 function App() {
-  return <TabbedInterface tabs={tabs} />;
+  return (
+    <React.ErrorBoundary fallback={<div>Error loading tabs</div>}>
+      <TabbedInterface tabs={tabs} />
+    </React.ErrorBoundary>
+  );
 }
 
 export default App;
@@ -185,6 +191,7 @@ Pin to stable versions for production (e.g., `0.0.1`). Use version ranges for de
 - **Namespace Conflicts**: Use unique namespaces for extensions.
 - **NPM Package Installation**: If `npm install @nednederlander/mvp-client` fails, ensure your registry is set to `https://registry.npmjs.org/` (run `npm config set registry https://registry.npmjs.org/` if needed), clear cache with `npm cache clean --force`, and verify the package exists at https://www.npmjs.com/package/@nednederlander/mvp-client. For public scoped packages, no authentication is required.
 - **Spring Boot Startup**: If Spring Boot fails to start, check for Maven dependency resolution (`mvn dependency:resolve`), ensure the MVP server JAR is correctly pulled from GitHub Packages (verify PAT and repository configuration), and inspect logs for bean creation errors or classpath issues. Confirm that custom services extending `AbstractSystemStateService` are properly annotated with `@Service`.
+- **React Runtime Errors**: If you encounter errors like "Cannot read properties of undefined (reading 'recentlyCreatedOwnerStacks')" from the MVP client, this indicates a React version mismatch. Ensure your subproject uses React 19+ (matching the MVP client's build). Wrap the `TabbedInterface` in a React Error Boundary to handle such issues gracefully. Check `package.json` for compatible React versions and run `npm update` if needed.
 
 ## Next Steps
 
