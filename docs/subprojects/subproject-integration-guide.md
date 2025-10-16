@@ -30,7 +30,7 @@ In your subproject's `pom.xml`:
     <parent>
         <groupId>org.ajp.mvp</groupId>
         <artifactId>server</artifactId>
-        <version>0.0.1</version> <!-- Use latest stable release -->
+        <version>0.0.2-SNAPSHOT</version> <!-- Use latest snapshot release -->
     </parent>
 
     <groupId>com.example</groupId> <!-- Your subproject groupId -->
@@ -118,7 +118,7 @@ Actuator is included in the backplane and enabled by default. Endpoints are avai
 In your subproject's client directory, install the MVP client package:
 
 ```bash
-npm install @nednederlander/mvp-client react react-dom
+npm install @nednederlander/mvp-client@^0.0.2 react react-dom
 ```
 
 **Important**: Ensure React and React-DOM versions match those expected by the MVP client (currently React 19+). Version mismatches can cause runtime errors like "Cannot read properties of undefined (reading 'recentlyCreatedOwnerStacks')". Use compatible versions or update accordingly.
@@ -135,7 +135,7 @@ Update `package.json` for the library build:
     "dev": "vite"
   },
   "dependencies": {
-    "@nednederlander/mvp-client": "^0.0.1",
+    "@nednederlander/mvp-client": "^0.0.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

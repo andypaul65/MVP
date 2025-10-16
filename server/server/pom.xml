@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.ajp.mvp</groupId>
     <artifactId>server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>mvp-backplane</name>
     <description>MVP Backplane Parent POM with Spring Boot dependencies and actuator</description>

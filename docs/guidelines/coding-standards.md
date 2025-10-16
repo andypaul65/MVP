@@ -288,6 +288,8 @@ temp/
 
 **Before initial commit**: Verify `.gitignore` exists and matches this configuration.
 
+**Version Alignment**: Client and server artifacts should maintain matching versions (e.g., client 0.0.2 corresponds to server 0.0.2-SNAPSHOT) for compatibility.
+
 **Note**: Subprojects building on the MVP framework should use the more comprehensive `.gitignore` specified in `subprojects/subproject-coding-standards.md` to cover both client and server-side development, plus additional security exclusions.
 
 ## Mandatory Pre-Commit Checklist
