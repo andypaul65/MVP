@@ -239,14 +239,56 @@ Incorporate checks at milestones to catch issues proactively.
 ## Development Environment Setup
 
 ### Git Configuration
-Always ensure proper `.gitignore` configuration to prevent committing system files and build artifacts:
+Always ensure proper `.gitignore` configuration to prevent committing system files and build artifacts. The MVP project uses the following `.gitignore` file:
 
-- **macOS Users**: `.DS_Store` files are automatically ignored
-- **IDE Files**: `.vscode/`, `.idea/` directories are ignored
-- **Build Artifacts**: `dist/`, `node_modules/`, `*.log` files are ignored
-- **Environment and Secret Files**: `.env*`, `.npmrc`, `config/secrets.json`, `config/*.key` files are ignored for security to prevent exposing tokens or credentials
+```
+# macOS
+.DS_Store
 
-**Before initial commit**: Verify `.gitignore` exists and contains appropriate exclusions.
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Temporary folders
+tmp/
+temp/
+```
+
+**Before initial commit**: Verify `.gitignore` exists and matches this configuration.
+
+**Note**: Subprojects building on the MVP framework should use the more comprehensive `.gitignore` specified in `subprojects/subproject-coding-standards.md` to cover both client and server-side development, plus additional security exclusions.
 
 ## Mandatory Pre-Commit Checklist
 
