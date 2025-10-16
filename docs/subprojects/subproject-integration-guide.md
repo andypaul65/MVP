@@ -40,6 +40,10 @@ In your subproject's `pom.xml`, add the repository to access the MVP server JAR:
             <artifactId>server</artifactId>
             <version>0.0.1</version> <!-- Use latest stable release -->
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <!-- Add your custom dependencies -->
     </dependencies>
 </project>
@@ -99,6 +103,16 @@ public class MyServiceRegistrar {
     registry.registerService("myService", myServiceInstance);
 }
 ```
+
+### Configure Spring Boot Actuator
+To enable monitoring and debugging endpoints (inherited from the MVP backplane), add the following to your `src/main/resources/application.properties`:
+
+```
+# Actuator configuration for debugging and monitoring
+management.endpoints.web.exposure.include=*
+```
+
+Actuator endpoints will be available at `http://localhost:8080/actuator/*` (e.g., `/actuator/health`, `/actuator/info`).
 
 ## Step 2: Set Up Client-Side Integration
 
