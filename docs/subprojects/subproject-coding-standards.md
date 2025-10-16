@@ -242,14 +242,98 @@ Incorporate checks at milestones to catch issues proactively.
 ## Development Environment Setup
 
 ### Git Configuration
-Always ensure proper `.gitignore` configuration to prevent committing system files and build artifacts:
+Subprojects must start with the following recommended `.gitignore` file to prevent committing sensitive or unnecessary files. This configuration covers client-side (Node.js/TypeScript), server-side (Java/Maven), multiple IDEs, and security configurations, ensuring consistency and security across all subprojects.
 
-- **macOS Users**: `.DS_Store` files are automatically ignored
-- **IDE Files**: `.vscode/`, `.idea/` directories are ignored
-- **Build Artifacts**: `dist/`, `node_modules/`, `*.log` files are ignored
-- **Environment and Secret Files**: `.env*`, `.npmrc`, `config/secrets.json`, `config/*.key` files are ignored for security to prevent exposing tokens or credentials
+Create a `.gitignore` file in the project root with the following contents:
 
-**Before initial commit**: Verify `.gitignore` exists and contains appropriate exclusions.
+```
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Node.js ###
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+### Build outputs ###
+dist/
+build/
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+
+### Development stubs (replaced by published packages) ###
+**/src/stubs/
+
+### Old lib directory (replaced by Maven dependencies) ###
+lib/
+
+### Security and Environment Files ###
+# Environment variables and secrets
+.env*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# NPM configuration (may contain tokens)
+.npmrc
+
+# Secret files
+config/secrets.json
+config/*.key
+config/*.pem
+config/*.crt
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+```
+
+**Before initial commit**: Verify `.gitignore` exists and matches this recommended configuration exactly.
 
 ## Mandatory Pre-Commit Checklist
 
