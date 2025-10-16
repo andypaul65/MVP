@@ -19,12 +19,23 @@ Subprojects can extend the framework by registering custom services, tabs, and h
 
 ## Step 1: Set Up Server-Side Integration
 
-### Add GitHub Packages Repository
-In your subproject's `pom.xml`, add the repository to access the MVP server JAR:
+### Inherit MVP Backplane Parent POM
+Subprojects inherit the MVP backplane as a parent POM, which provides Spring Boot dependencies (including actuator), configurations, and plugins.
+
+In your subproject's `pom.xml`:
 
 ```xml
-<reproject ...>
-    <!-- Other configurations -->
+<project ...>
+    <!-- Inherit from MVP Backplane Parent POM -->
+    <parent>
+        <groupId>org.ajp.mvp</groupId>
+        <artifactId>server</artifactId>
+        <version>0.0.1</version> <!-- Use latest stable release -->
+    </parent>
+
+    <groupId>com.example</groupId> <!-- Your subproject groupId -->
+    <artifactId>my-subproject</artifactId> <!-- Your subproject artifactId -->
+    <version>1.0.0</version>
 
     <repositories>
         <repository>
@@ -33,19 +44,13 @@ In your subproject's `pom.xml`, add the repository to access the MVP server JAR:
         </repository>
     </repositories>
 
-    <!-- Dependencies -->
+    <!-- Dependencies inherited from parent: actuator, web, websocket, security, etc. -->
+    <!-- Add your custom dependencies here -->
     <dependencies>
-        <dependency>
-            <groupId>org.ajp.mvp</groupId>
-            <artifactId>server</artifactId>
-            <version>0.0.1</version> <!-- Use latest stable release -->
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <!-- Add your custom dependencies -->
+        <!-- Custom dependencies -->
     </dependencies>
+
+    <!-- Configuration inherited: actuator enabled, etc. -->
 </project>
 ```
 
@@ -104,15 +109,8 @@ public class MyServiceRegistrar {
 }
 ```
 
-### Configure Spring Boot Actuator
-To enable monitoring and debugging endpoints (inherited from the MVP backplane), add the following to your `src/main/resources/application.properties`:
-
-```
-# Actuator configuration for debugging and monitoring
-management.endpoints.web.exposure.include=*
-```
-
-Actuator endpoints will be available at `http://localhost:8080/actuator/*` (e.g., `/actuator/health`, `/actuator/info`).
+### Spring Boot Actuator
+Actuator is included in the backplane and enabled by default. Endpoints are available at `http://localhost:8080/actuator/*` (e.g., `/actuator/health`, `/actuator/info`). You can override settings in your `application.properties` if needed.
 
 ## Step 2: Set Up Client-Side Integration
 
