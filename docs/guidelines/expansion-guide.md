@@ -16,16 +16,16 @@ Extensions are achieved through:
 
 ## Packaging and Naming
 
-### Server JAR Naming
-- **Library JAR**: `org.ajp.mvp:server:0.0.1-SNAPSHOT.jar`
-  - Contains core services, controllers, DTOs.
+### Server Artifacts Naming
+- **Core JAR**: `org.ajp.mvp:mvp-core:0.0.3-SNAPSHOT.jar`
+  - Contains core MVP classes (AbstractSystemStateService, ServiceRegistry, SystemStateService, MessageDto).
   - Dependency for extending projects.
-- **Executable JAR**: `org.ajp.mvp:server:0.0.1-SNAPSHOT-exec.jar`
-  - Includes embedded server for standalone apps.
-  - Not used when building on top of the base layer.
+- **Parent POM**: `org.ajp.mvp:server:0.0.3-SNAPSHOT`
+  - Parent POM providing Spring Boot dependencies and configurations.
+  - Depends on mvp-core JAR for subprojects.
 
 ### Client NPM Naming
-- **Package**: `@nednederlander/mvp-client@0.0.1`
+- **Package**: `@nednederlander/mvp-client@0.0.2`
 - **Dist Files**:
   - `dist/index.js`: ESM bundle (externalizes React/React-DOM).
   - `dist/index.d.ts`: TypeScript definitions.
@@ -85,7 +85,7 @@ To enable deploying the server JAR to GitHub Packages:
      ```
      - Replace `YOUR_GITHUB_PAT` with your GitHub PAT. This authenticates Maven to GitHub Packages.
 
-3. **Deploy Command**: Run `mvn deploy` to upload the JAR. Ensure the repository is public or the PAT has access. For snapshots, append `-SNAPSHOT` to version in pom.xml.
+3. **Deploy Command**: Run `mvn deploy` to upload artifacts. Deploy `mvp-core` JAR first, then `server` POM. Ensure the repository is public or the PAT has access. For snapshots, append `-SNAPSHOT` to version in pom.xml.
 
 ## Core Interfaces and Contracts
 
@@ -194,6 +194,10 @@ const tabs = [/* existing tabs */, customTab];
 
 ### Custom Service Implementation (Server)
 ```java
+import com.example.services.AbstractSystemStateService;
+import com.example.dto.MessageDto;
+import org.springframework.stereotype.Service;
+
 @Service
 public class CustomSystemStateService extends AbstractSystemStateService {
     @Override
@@ -227,13 +231,15 @@ registry.registerService("customState", new CustomSystemStateService());
 ## Building on Top of the Base Layer
 
 ### Maven Project Setup
+Inherit from the MVP server parent POM:
 ```xml
-<dependency>
+<parent>
     <groupId>org.ajp.mvp</groupId>
     <artifactId>server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-</dependency>
+    <version>0.0.3-SNAPSHOT</version>
+</parent>
 ```
+This automatically includes the mvp-core JAR dependency.
 
 ### NPM Project Setup
 ```bash
@@ -255,7 +261,7 @@ To use the published JAR from GitHub Packages in a subproject:
    </repositories>
    ```
 
-2. **Update dependency version** to the released version (e.g., `0.0.1` instead of `0.0.1-SNAPSHOT`).
+2. **Update dependency version** to the released version (e.g., `0.0.3` instead of `0.0.3-SNAPSHOT`).
 
 #### NPM Package Usage
 The `@nednederlander/mvp-client` package is published to NPM registry. Subprojects can install it directly via `npm install @nednederlander/mvp-client`. No additional repository setup needed for public packages.
@@ -286,11 +292,11 @@ my-extension/
 To maintain a reliable ecosystem:
 
 1. **Development Workflow**:
-   - Use `-SNAPSHOT` versions (e.g., `0.0.1-SNAPSHOT` in Maven, `0.0.1-dev` or similar in NPM) for iterative development, commits, and internal deployments. This allows multiple deployments without version changes, supporting ongoing testing and integration.
+   - Use `-SNAPSHOT` versions (e.g., `0.0.3-SNAPSHOT` in Maven, `0.0.2-dev` or similar in NPM) for iterative development, commits, and internal deployments. This allows multiple deployments without version changes, supporting ongoing testing and integration.
    - Commits and builds can proceed with SNAPSHOT versions as they do not require version bumps for each change.
 
 2. **Release Preparation**:
-   - When ready for official release, remove `-SNAPSHOT` and update to a stable version following SemVer (e.g., `0.0.1` for initial release).
+   - When ready for official release, remove `-SNAPSHOT` and update to a stable version following SemVer (e.g., `0.0.3` for initial release).
    - Run full pre-release checks: full test suites, builds, and compatibility verification.
 
 3. **Semantic Versioning**: Update versions in `package.json` (client) and `pom.xml` (server) following SemVer conventions (MAJOR.MINOR.PATCH):
@@ -299,12 +305,12 @@ To maintain a reliable ecosystem:
    - **PATCH**: Bug fixes.
 
 4. **Publishing Workflow**:
-   - **Server**: Use Maven release plugin or manual `mvn deploy` to publish JAR to repository (e.g., GitHub Packages). For releases, deploy stable versions; for development, deploy SNAPSHOTS.
+   - **Server**: Use Maven release plugin or manual `mvn deploy` to publish artifacts (mvp-core JAR first, then server POM) to repository (e.g., GitHub Packages). For releases, deploy stable versions; for development, deploy SNAPSHOTS.
    - **Client**: After build, authenticate with NPM token and run `npm publish` for stable releases.
 
 5. **Changelog**: Maintain a `CHANGELOG.md` documenting version changes and breaking changes.
 
-6. **Dependency Management**: Extending projects should specify version ranges (e.g., `^1.0.0` for NPM, exact versions for Maven) to allow patches but avoid breaking changes. Pin to stable releases for production stability.
+6. **Dependency Management**: Extending projects should specify version ranges (e.g., `^0.0.2` for NPM, exact versions for Maven) to allow patches but avoid breaking changes. Pin to stable releases for production stability.
 
 ## API Reference
 - Server Endpoints: See `api-contracts.json`

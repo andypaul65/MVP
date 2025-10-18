@@ -2,7 +2,7 @@
 
 This index provides an overview of all documentation for the MVP (Modular Visualization Platform) project, grouped by category. The MVP is a client-server framework designed as a backplane for building extensible applications, with React/TypeScript frontend and Spring Boot/Java backend.
 
-**Last Updated**: 2025-10-13
+**Last Updated**: 2025-10-18
 
 ## Categories
 
