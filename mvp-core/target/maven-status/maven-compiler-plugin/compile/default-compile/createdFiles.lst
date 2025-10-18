@@ -1,0 +1,4 @@
+com/example/services/AbstractSystemStateService.class
+com/example/services/ServiceRegistry.class
+com/example/dto/MessageDto.class
+com/example/services/SystemStateService.class
